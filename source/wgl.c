@@ -1,6 +1,11 @@
 /**
  * SPDX-License-Identifier: (WTFPL OR CC0-1.0) AND Apache-2.0
  */
+
+#if !__has_include(<windows.h>)
+  #error "windows.h wasn't found."
+#else
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -590,4 +595,6 @@ int gladLoaderLoadWGL(HDC hdc) {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

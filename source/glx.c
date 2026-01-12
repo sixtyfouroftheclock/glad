@@ -1,4 +1,6 @@
-#ifdef __linux__
+#if !__has_include(<X11/Xlib.h>)
+  #error "Xlib.h wasn't found."
+#else
 
 /**
  * SPDX-License-Identifier: (WTFPL OR CC0-1.0) AND Apache-2.0

@@ -1,7 +1,9 @@
 #ifndef GLAD_WGL_H_
 #define GLAD_WGL_H_
 
-#ifdef _WIN32
+#if !__has_include(<windows.h>)
+  #error "windows.h wasn't found."
+#else
 
 #include <windows.h>
 #include <glad/gl.h>
@@ -996,6 +998,6 @@ GLAD_API_CALL int gladLoaderLoadWGL(HDC hdc);
 }
 #endif
 
-#endif // _WIN32
+#endif
 
 #endif
