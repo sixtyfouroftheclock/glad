@@ -7,19 +7,22 @@ set(CMAKE_C_EXTENSIONS false)
 
 set(GLAD_SOURCE source/gl.c source/egl.c)
 
-add_library(glad STATIC)
+add_library(glad)
 target_include_directories(glad PUBLIC include/)
 
-if(UNIX AND NOT APPLE)
-    set(GLAD_SOURCE ${GLAD_SOURCE} source/glx.c)
+find_package(X11 QUIET)
+
+if(X11_FOUND)
+    list(APPEND GLAD_SOURCE source/glx.c)
     set_target_properties(glad PROPERTIES POSITION_INDEPENDENT_CODE ON)
     target_link_libraries(glad PUBLIC X11 GL)
 elseif(WIN32)
-    set(GLAD_SOURCE ${GLAD_SOURCE} source/wgl.c)
+    list(APPEND GLAD_SOURCE source/wgl.c)
     target_link_libraries(glad PUBLIC opengl32)
 else()
-    message(FATAL_ERROR "Compiling for a not supported operating system")
+    message(FATAL_ERROR)
 endif()
+
 
 target_sources(glad PRIVATE ${GLAD_SOURCE})
 
