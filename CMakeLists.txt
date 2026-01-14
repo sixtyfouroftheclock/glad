@@ -23,6 +23,9 @@ else()
     message(FATAL_ERROR)
 endif()
 
+include(CTest)
+enable_testing()
+add_subdirectory(tests)
 
 target_sources(glo PRIVATE ${GLO_SOURCE})
 
