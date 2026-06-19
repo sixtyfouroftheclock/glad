@@ -1,14 +1,11 @@
 #ifndef GLAD_WGL_H_
 #define GLAD_WGL_H_
 
-#if !__has_include(<windows.h>)
-#error "windows.h wasn't found."
-#else
-
 #include <windows.h>
 #include <glad/gl.h>
 
 #define GLAD_WGL
+#define GLAD_OPTION_WGL_ALIAS
 #define GLAD_OPTION_WGL_LOADER
 
 #ifdef __cplusplus
@@ -1162,7 +1159,4 @@ gladLoaderLoadWGL (HDC hdc);
 #ifdef __cplusplus
 }
 #endif
-
-#endif
-
 #endif

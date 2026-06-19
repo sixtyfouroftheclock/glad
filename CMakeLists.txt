@@ -12,10 +12,10 @@ find_package(X11 QUIET)
 set(GLEXT_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(static_glext STATIC ${GLAD_SOURCE})
-target_include_directories(static_glext PRIVATE ${GLEXT_INCLUDE})
+target_include_directories(static_glext PUBLIC ${GLEXT_INCLUDE})
 
 add_library(glext SHARED ${GLAD_SOURCE})
-target_include_directories(glext PRIVATE ${GLEXT_INCLUDE})
+target_include_directories(glext PUBLIC ${GLEXT_INCLUDE})
 
 if(X11_FOUND)
     list(APPEND GLAD_SOURCE source/glx.c)

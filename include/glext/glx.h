@@ -1,9 +1,7 @@
 #ifndef GLAD_GLX_H_
 #define GLAD_GLX_H_
 
-#if !__has_include(<X11/Xlib.h>)
-#error "Xlib.h wasn't found."
-#else
+#if __has_include(<X11/Xlib.h>)
 
 #ifdef GLX_H
 #error GLX header already included (API: glx), remove previous include!
@@ -17,6 +15,7 @@
 #include <glad/gl.h>
 
 #define GLAD_GLX
+#define GLAD_OPTION_GLX_ALIAS
 #define GLAD_OPTION_GLX_LOADER
 
 #ifdef __cplusplus
@@ -1364,6 +1363,6 @@ gladLoaderUnloadGLX (void);
 }
 #endif
 
-#endif
+#endif // __has included(X11/Xlib.h)
 
 #endif

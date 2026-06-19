@@ -2,6 +2,7 @@
 #define GLAD_EGL_H_
 
 #define GLAD_EGL
+#define GLAD_OPTION_EGL_ALIAS
 #define GLAD_OPTION_EGL_LOADER
 
 #ifdef __cplusplus
@@ -267,6 +268,11 @@ typedef void (*GLADpostcallback) (void* ret, const char* name,
 #define EGL_DEPTH_SIZE 0x3025
 #define EGL_DEQUEUE_READY_TIME_ANDROID 0x343B
 #define EGL_DEVICE_EXT 0x322C
+#define EGL_DEVICE_TYPE_CPU_EXT 0x3594
+#define EGL_DEVICE_TYPE_DISCRETE_GPU_EXT 0x3593
+#define EGL_DEVICE_TYPE_EXT 0x3590
+#define EGL_DEVICE_TYPE_INTEGRATED_GPU_EXT 0x3592
+#define EGL_DEVICE_TYPE_OTHER_EXT 0x3591
 #define EGL_DEVICE_UUID_EXT 0x335C
 #define EGL_DISCARD_SAMPLES_ARM 0x3286
 #define EGL_DISPLAY_PRESENT_TIME_ANDROID 0x343A
@@ -720,8 +726,8 @@ typedef void (*GLADpostcallback) (void* ret, const char* name,
 #define EGL_Y_AXIS_NV 0x3370
 #define EGL_Y_INVERTED_NOK 0x307F
 
-#include <EGL/eglplatform.h>
 #include <KHR/khrplatform.h>
+#include <EGL/eglplatform.h>
 
 struct AHardwareBuffer;
 struct wl_buffer;
@@ -864,6 +870,8 @@ GLAD_API_CALL int GLAD_EGL_EXT_device_persistent_id;
 GLAD_API_CALL int GLAD_EGL_EXT_device_query;
 #define EGL_EXT_device_query_name 1
 GLAD_API_CALL int GLAD_EGL_EXT_device_query_name;
+#define EGL_EXT_device_type 1
+GLAD_API_CALL int GLAD_EGL_EXT_device_type;
 #define EGL_EXT_display_alloc 1
 GLAD_API_CALL int GLAD_EGL_EXT_display_alloc;
 #define EGL_EXT_explicit_device 1

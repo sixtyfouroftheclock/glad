@@ -63,6 +63,7 @@ int GLAD_EGL_EXT_device_openwf = 0;
 int GLAD_EGL_EXT_device_persistent_id = 0;
 int GLAD_EGL_EXT_device_query = 0;
 int GLAD_EGL_EXT_device_query_name = 0;
+int GLAD_EGL_EXT_device_type = 0;
 int GLAD_EGL_EXT_display_alloc = 0;
 int GLAD_EGL_EXT_explicit_device = 0;
 int GLAD_EGL_EXT_gl_colorspace_bt2020_hlg = 0;
@@ -1074,6 +1075,52 @@ glad_egl_load_EGL_WL_create_wayland_buffer_from_image (
       userptr, "eglCreateWaylandBufferFromImageWL");
 }
 
+static void
+glad_egl_resolve_aliases (void) {
+  if (glad_eglClientWaitSync == NULL && glad_eglClientWaitSyncKHR != NULL)
+    glad_eglClientWaitSync
+      = (PFNEGLCLIENTWAITSYNCPROC)glad_eglClientWaitSyncKHR;
+  if (glad_eglClientWaitSyncKHR == NULL && glad_eglClientWaitSync != NULL)
+    glad_eglClientWaitSyncKHR
+      = (PFNEGLCLIENTWAITSYNCKHRPROC)glad_eglClientWaitSync;
+  if (glad_eglCreateSync == NULL && glad_eglCreateSync64KHR != NULL)
+    glad_eglCreateSync = (PFNEGLCREATESYNCPROC)glad_eglCreateSync64KHR;
+  if (glad_eglCreateSync64KHR == NULL && glad_eglCreateSync != NULL)
+    glad_eglCreateSync64KHR = (PFNEGLCREATESYNC64KHRPROC)glad_eglCreateSync;
+  if (glad_eglDestroyImage == NULL && glad_eglDestroyImageKHR != NULL)
+    glad_eglDestroyImage = (PFNEGLDESTROYIMAGEPROC)glad_eglDestroyImageKHR;
+  if (glad_eglDestroyImageKHR == NULL && glad_eglDestroyImage != NULL)
+    glad_eglDestroyImageKHR = (PFNEGLDESTROYIMAGEKHRPROC)glad_eglDestroyImage;
+  if (glad_eglDestroySync == NULL && glad_eglDestroySyncKHR != NULL)
+    glad_eglDestroySync = (PFNEGLDESTROYSYNCPROC)glad_eglDestroySyncKHR;
+  if (glad_eglDestroySyncKHR == NULL && glad_eglDestroySync != NULL)
+    glad_eglDestroySyncKHR = (PFNEGLDESTROYSYNCKHRPROC)glad_eglDestroySync;
+  if (glad_eglQueryDisplayAttribEXT == NULL
+      && glad_eglQueryDisplayAttribKHR != NULL)
+    glad_eglQueryDisplayAttribEXT
+      = (PFNEGLQUERYDISPLAYATTRIBEXTPROC)glad_eglQueryDisplayAttribKHR;
+  if (glad_eglQueryDisplayAttribEXT == NULL
+      && glad_eglQueryDisplayAttribNV != NULL)
+    glad_eglQueryDisplayAttribEXT
+      = (PFNEGLQUERYDISPLAYATTRIBEXTPROC)glad_eglQueryDisplayAttribNV;
+  if (glad_eglQueryDisplayAttribKHR == NULL
+      && glad_eglQueryDisplayAttribEXT != NULL)
+    glad_eglQueryDisplayAttribKHR
+      = (PFNEGLQUERYDISPLAYATTRIBKHRPROC)glad_eglQueryDisplayAttribEXT;
+  if (glad_eglQueryDisplayAttribKHR == NULL
+      && glad_eglQueryDisplayAttribNV != NULL)
+    glad_eglQueryDisplayAttribKHR
+      = (PFNEGLQUERYDISPLAYATTRIBKHRPROC)glad_eglQueryDisplayAttribNV;
+  if (glad_eglQueryDisplayAttribNV == NULL
+      && glad_eglQueryDisplayAttribEXT != NULL)
+    glad_eglQueryDisplayAttribNV
+      = (PFNEGLQUERYDISPLAYATTRIBNVPROC)glad_eglQueryDisplayAttribEXT;
+  if (glad_eglQueryDisplayAttribNV == NULL
+      && glad_eglQueryDisplayAttribKHR != NULL)
+    glad_eglQueryDisplayAttribNV
+      = (PFNEGLQUERYDISPLAYATTRIBNVPROC)glad_eglQueryDisplayAttribKHR;
+}
+
 static int
 glad_egl_get_extensions (EGLDisplay display, const char** extensions) {
   *extensions = eglQueryString (display, EGL_EXTENSIONS);
@@ -1186,6 +1233,8 @@ glad_egl_find_extensions_egl (EGLDisplay display) {
     = glad_egl_has_extension (extensions, "EGL_EXT_device_query");
   GLAD_EGL_EXT_device_query_name
     = glad_egl_has_extension (extensions, "EGL_EXT_device_query_name");
+  GLAD_EGL_EXT_device_type
+    = glad_egl_has_extension (extensions, "EGL_EXT_device_type");
   GLAD_EGL_EXT_display_alloc
     = glad_egl_has_extension (extensions, "EGL_EXT_display_alloc");
   GLAD_EGL_EXT_explicit_device
@@ -1572,6 +1621,8 @@ gladLoadEGLUserPtr (EGLDisplay display, GLADuserptrloadfunc load,
   glad_egl_load_EGL_NV_system_time (load, userptr);
   glad_egl_load_EGL_WL_bind_wayland_display (load, userptr);
   glad_egl_load_EGL_WL_create_wayland_buffer_from_image (load, userptr);
+
+  glad_egl_resolve_aliases ();
 
   return version;
 }
