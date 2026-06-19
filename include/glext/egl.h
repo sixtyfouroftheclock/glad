@@ -1,133 +1,133 @@
-#ifndef GLAD_EGL_H_
-#define GLAD_EGL_H_
+#ifndef GLEXT_EGL_H_
+#define GLEXT_EGL_H_
 
-#define GLAD_EGL
-#define GLAD_OPTION_EGL_ALIAS
-#define GLAD_OPTION_EGL_LOADER
+#define GLEXT_EGL
+#define GLEXT_OPTION_EGL_ALIAS
+#define GLEXT_OPTION_EGL_LOADER
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifndef GLAD_PLATFORM_H_
-#define GLAD_PLATFORM_H_
+#ifndef GLEXT_PLATFORM_H_
+#define GLEXT_PLATFORM_H_
 
-#ifndef GLAD_PLATFORM_WIN32
+#ifndef GLEXT_PLATFORM_WIN32
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)                   \
   || defined(__MINGW32__)
-#define GLAD_PLATFORM_WIN32 1
+#define GLEXT_PLATFORM_WIN32 1
 #else
-#define GLAD_PLATFORM_WIN32 0
+#define GLEXT_PLATFORM_WIN32 0
 #endif
 #endif
 
-#ifndef GLAD_PLATFORM_APPLE
+#ifndef GLEXT_PLATFORM_APPLE
 #ifdef __APPLE__
-#define GLAD_PLATFORM_APPLE 1
+#define GLEXT_PLATFORM_APPLE 1
 #else
-#define GLAD_PLATFORM_APPLE 0
+#define GLEXT_PLATFORM_APPLE 0
 #endif
 #endif
 
-#ifndef GLAD_PLATFORM_EMSCRIPTEN
+#ifndef GLEXT_PLATFORM_EMSCRIPTEN
 #ifdef __EMSCRIPTEN__
-#define GLAD_PLATFORM_EMSCRIPTEN 1
+#define GLEXT_PLATFORM_EMSCRIPTEN 1
 #else
-#define GLAD_PLATFORM_EMSCRIPTEN 0
+#define GLEXT_PLATFORM_EMSCRIPTEN 0
 #endif
 #endif
 
-#ifndef GLAD_PLATFORM_UWP
-#if defined(_MSC_VER) && !defined(GLAD_INTERNAL_HAVE_WINAPIFAMILY)
+#ifndef GLEXT_PLATFORM_UWP
+#if defined(_MSC_VER) && !defined(GLEXT_INTERNAL_HAVE_WINAPIFAMILY)
 #ifdef __has_include
 #if __has_include(<winapifamily.h>)
-#define GLAD_INTERNAL_HAVE_WINAPIFAMILY 1
+#define GLEXT_INTERNAL_HAVE_WINAPIFAMILY 1
 #endif
 #elif _MSC_VER >= 1700 && !_USING_V110_SDK71_
-#define GLAD_INTERNAL_HAVE_WINAPIFAMILY 1
+#define GLEXT_INTERNAL_HAVE_WINAPIFAMILY 1
 #endif
 #endif
 
-#ifdef GLAD_INTERNAL_HAVE_WINAPIFAMILY
+#ifdef GLEXT_INTERNAL_HAVE_WINAPIFAMILY
 #include <winapifamily.h>
 #if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)                        \
   && WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
-#define GLAD_PLATFORM_UWP 1
+#define GLEXT_PLATFORM_UWP 1
 #endif
 #endif
 
-#ifndef GLAD_PLATFORM_UWP
-#define GLAD_PLATFORM_UWP 0
+#ifndef GLEXT_PLATFORM_UWP
+#define GLEXT_PLATFORM_UWP 0
 #endif
 #endif
 
 #ifdef __GNUC__
-#define GLAD_GNUC_EXTENSION __extension__
+#define GLEXT_GNUC_EXTENSION __extension__
 #else
-#define GLAD_GNUC_EXTENSION
+#define GLEXT_GNUC_EXTENSION
 #endif
 
-#define GLAD_UNUSED(x) (void)(x)
+#define GLEXT_UNUSED(x) (void)(x)
 
-#ifndef GLAD_API_CALL
-#if defined(GLAD_API_CALL_EXPORT)
-#if GLAD_PLATFORM_WIN32 || defined(__CYGWIN__)
-#if defined(GLAD_API_CALL_EXPORT_BUILD)
+#ifndef GLEXT_API_CALL
+#if defined(GLEXT_API_CALL_EXPORT)
+#if GLEXT_PLATFORM_WIN32 || defined(__CYGWIN__)
+#if defined(GLEXT_API_CALL_EXPORT_BUILD)
 #if defined(__GNUC__)
-#define GLAD_API_CALL __attribute__ ((dllexport)) extern
+#define GLEXT_API_CALL __attribute__ ((dllexport)) extern
 #else
-#define GLAD_API_CALL __declspec (dllexport) extern
+#define GLEXT_API_CALL __declspec (dllexport) extern
 #endif
 #else
 #if defined(__GNUC__)
-#define GLAD_API_CALL __attribute__ ((dllimport)) extern
+#define GLEXT_API_CALL __attribute__ ((dllimport)) extern
 #else
-#define GLAD_API_CALL __declspec (dllimport) extern
+#define GLEXT_API_CALL __declspec (dllimport) extern
 #endif
 #endif
-#elif defined(__GNUC__) && defined(GLAD_API_CALL_EXPORT_BUILD)
-#define GLAD_API_CALL __attribute__ ((visibility ("default"))) extern
+#elif defined(__GNUC__) && defined(GLEXT_API_CALL_EXPORT_BUILD)
+#define GLEXT_API_CALL __attribute__ ((visibility ("default"))) extern
 #else
-#define GLAD_API_CALL extern
+#define GLEXT_API_CALL extern
 #endif
 #else
-#define GLAD_API_CALL extern
+#define GLEXT_API_CALL extern
 #endif
 #endif
 
 #ifdef APIENTRY
-#define GLAD_API_PTR APIENTRY
-#elif GLAD_PLATFORM_WIN32
-#define GLAD_API_PTR __stdcall
+#define GLEXT_API_PTR APIENTRY
+#elif GLEXT_PLATFORM_WIN32
+#define GLEXT_API_PTR __stdcall
 #else
-#define GLAD_API_PTR
+#define GLEXT_API_PTR
 #endif
 
 #ifndef GLAPI
-#define GLAPI GLAD_API_CALL
+#define GLAPI GLEXT_API_CALL
 #endif
 
 #ifndef GLAPIENTRY
-#define GLAPIENTRY GLAD_API_PTR
+#define GLAPIENTRY GLEXT_API_PTR
 #endif
 
-#define GLAD_MAKE_VERSION(major, minor) (major * 10000 + minor)
-#define GLAD_VERSION_MAJOR(version) (version / 10000)
-#define GLAD_VERSION_MINOR(version) (version % 10000)
+#define GLEXT_MAKE_VERSION(major, minor) (major * 10000 + minor)
+#define GLEXT_VERSION_MAJOR(version) (version / 10000)
+#define GLEXT_VERSION_MINOR(version) (version % 10000)
 
-#define GLAD_GENERATOR_VERSION "2.0.8"
+#define GLEXT_GENERATOR_VERSION "2.0.8"
 
-typedef void (*GLADapiproc) (void);
+typedef void (*GLEXTapiproc) (void);
 
-typedef GLADapiproc (*GLADloadfunc) (const char* name);
-typedef GLADapiproc (*GLADuserptrloadfunc) (void* userptr, const char* name);
+typedef GLEXTapiproc (*GLEXTloadfunc) (const char* name);
+typedef GLEXTapiproc (*GLEXTuserptrloadfunc) (void* userptr, const char* name);
 
-typedef void (*GLADprecallback) (const char* name, GLADapiproc apiproc,
-                                 int len_args, ...);
-typedef void (*GLADpostcallback) (void* ret, const char* name,
-                                  GLADapiproc apiproc, int len_args, ...);
+typedef void (*GLEXTprecallback) (const char* name, GLEXTapiproc apiproc,
+                                  int len_args, ...);
+typedef void (*GLEXTpostcallback) (void* ret, const char* name,
+                                   GLEXTapiproc apiproc, int len_args, ...);
 
-#endif /* GLAD_PLATFORM_H_ */
+#endif /* GLEXT_PLATFORM_H_ */
 
 #define EGL_ALLOC_NEW_DISPLAY_EXT 0x3379
 #define EGL_ALPHA_FORMAT 0x3088
@@ -777,7 +777,7 @@ struct EGLClientPixmapHI {
   EGLint iHeight;
   EGLint iStride;
 };
-typedef void (GLAD_API_PTR* EGLDEBUGPROCKHR) (
+typedef void (GLEXT_API_PTR* EGLDEBUGPROCKHR) (
   EGLenum error, const char* command, EGLint messageType,
   EGLLabelKHR threadLabel, EGLLabelKHR objectLabel, const char* message);
 #define PFNEGLBINDWAYLANDDISPLAYWL PFNEGLBINDWAYLANDDISPLAYWLPROC
@@ -787,1108 +787,1108 @@ typedef void (GLAD_API_PTR* EGLDEBUGPROCKHR) (
   PFNEGLCREATEWAYLANDBUFFERFROMIMAGEWLPROC
 
 #define EGL_VERSION_1_0 1
-GLAD_API_CALL int GLAD_EGL_VERSION_1_0;
+GLEXT_API_CALL int GLEXT_EGL_VERSION_1_0;
 #define EGL_VERSION_1_1 1
-GLAD_API_CALL int GLAD_EGL_VERSION_1_1;
+GLEXT_API_CALL int GLEXT_EGL_VERSION_1_1;
 #define EGL_VERSION_1_2 1
-GLAD_API_CALL int GLAD_EGL_VERSION_1_2;
+GLEXT_API_CALL int GLEXT_EGL_VERSION_1_2;
 #define EGL_VERSION_1_3 1
-GLAD_API_CALL int GLAD_EGL_VERSION_1_3;
+GLEXT_API_CALL int GLEXT_EGL_VERSION_1_3;
 #define EGL_VERSION_1_4 1
-GLAD_API_CALL int GLAD_EGL_VERSION_1_4;
+GLEXT_API_CALL int GLEXT_EGL_VERSION_1_4;
 #define EGL_VERSION_1_5 1
-GLAD_API_CALL int GLAD_EGL_VERSION_1_5;
+GLEXT_API_CALL int GLEXT_EGL_VERSION_1_5;
 #define EGL_ANDROID_GLES_layers 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_GLES_layers;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_GLES_layers;
 #define EGL_ANDROID_blob_cache 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_blob_cache;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_blob_cache;
 #define EGL_ANDROID_create_native_client_buffer 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_create_native_client_buffer;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_create_native_client_buffer;
 #define EGL_ANDROID_framebuffer_target 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_framebuffer_target;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_framebuffer_target;
 #define EGL_ANDROID_front_buffer_auto_refresh 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_front_buffer_auto_refresh;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_front_buffer_auto_refresh;
 #define EGL_ANDROID_get_frame_timestamps 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_get_frame_timestamps;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_get_frame_timestamps;
 #define EGL_ANDROID_get_native_client_buffer 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_get_native_client_buffer;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_get_native_client_buffer;
 #define EGL_ANDROID_image_native_buffer 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_image_native_buffer;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_image_native_buffer;
 #define EGL_ANDROID_native_fence_sync 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_native_fence_sync;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_native_fence_sync;
 #define EGL_ANDROID_presentation_time 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_presentation_time;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_presentation_time;
 #define EGL_ANDROID_recordable 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_recordable;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_recordable;
 #define EGL_ANDROID_telemetry_hint 1
-GLAD_API_CALL int GLAD_EGL_ANDROID_telemetry_hint;
+GLEXT_API_CALL int GLEXT_EGL_ANDROID_telemetry_hint;
 #define EGL_ANGLE_d3d_share_handle_client_buffer 1
-GLAD_API_CALL int GLAD_EGL_ANGLE_d3d_share_handle_client_buffer;
+GLEXT_API_CALL int GLEXT_EGL_ANGLE_d3d_share_handle_client_buffer;
 #define EGL_ANGLE_device_d3d 1
-GLAD_API_CALL int GLAD_EGL_ANGLE_device_d3d;
+GLEXT_API_CALL int GLEXT_EGL_ANGLE_device_d3d;
 #define EGL_ANGLE_query_surface_pointer 1
-GLAD_API_CALL int GLAD_EGL_ANGLE_query_surface_pointer;
+GLEXT_API_CALL int GLEXT_EGL_ANGLE_query_surface_pointer;
 #define EGL_ANGLE_surface_d3d_texture_2d_share_handle 1
-GLAD_API_CALL int GLAD_EGL_ANGLE_surface_d3d_texture_2d_share_handle;
+GLEXT_API_CALL int GLEXT_EGL_ANGLE_surface_d3d_texture_2d_share_handle;
 #define EGL_ANGLE_sync_control_rate 1
-GLAD_API_CALL int GLAD_EGL_ANGLE_sync_control_rate;
+GLEXT_API_CALL int GLEXT_EGL_ANGLE_sync_control_rate;
 #define EGL_ANGLE_window_fixed_size 1
-GLAD_API_CALL int GLAD_EGL_ANGLE_window_fixed_size;
+GLEXT_API_CALL int GLEXT_EGL_ANGLE_window_fixed_size;
 #define EGL_ARM_image_format 1
-GLAD_API_CALL int GLAD_EGL_ARM_image_format;
+GLEXT_API_CALL int GLEXT_EGL_ARM_image_format;
 #define EGL_ARM_implicit_external_sync 1
-GLAD_API_CALL int GLAD_EGL_ARM_implicit_external_sync;
+GLEXT_API_CALL int GLEXT_EGL_ARM_implicit_external_sync;
 #define EGL_ARM_pixmap_multisample_discard 1
-GLAD_API_CALL int GLAD_EGL_ARM_pixmap_multisample_discard;
+GLEXT_API_CALL int GLEXT_EGL_ARM_pixmap_multisample_discard;
 #define EGL_EXT_bind_to_front 1
-GLAD_API_CALL int GLAD_EGL_EXT_bind_to_front;
+GLEXT_API_CALL int GLEXT_EGL_EXT_bind_to_front;
 #define EGL_EXT_buffer_age 1
-GLAD_API_CALL int GLAD_EGL_EXT_buffer_age;
+GLEXT_API_CALL int GLEXT_EGL_EXT_buffer_age;
 #define EGL_EXT_client_extensions 1
-GLAD_API_CALL int GLAD_EGL_EXT_client_extensions;
+GLEXT_API_CALL int GLEXT_EGL_EXT_client_extensions;
 #define EGL_EXT_client_sync 1
-GLAD_API_CALL int GLAD_EGL_EXT_client_sync;
+GLEXT_API_CALL int GLEXT_EGL_EXT_client_sync;
 #define EGL_EXT_compositor 1
-GLAD_API_CALL int GLAD_EGL_EXT_compositor;
+GLEXT_API_CALL int GLEXT_EGL_EXT_compositor;
 #define EGL_EXT_config_select_group 1
-GLAD_API_CALL int GLAD_EGL_EXT_config_select_group;
+GLEXT_API_CALL int GLEXT_EGL_EXT_config_select_group;
 #define EGL_EXT_create_context_robustness 1
-GLAD_API_CALL int GLAD_EGL_EXT_create_context_robustness;
+GLEXT_API_CALL int GLEXT_EGL_EXT_create_context_robustness;
 #define EGL_EXT_device_base 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_base;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_base;
 #define EGL_EXT_device_drm 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_drm;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_drm;
 #define EGL_EXT_device_drm_render_node 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_drm_render_node;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_drm_render_node;
 #define EGL_EXT_device_enumeration 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_enumeration;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_enumeration;
 #define EGL_EXT_device_openwf 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_openwf;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_openwf;
 #define EGL_EXT_device_persistent_id 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_persistent_id;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_persistent_id;
 #define EGL_EXT_device_query 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_query;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_query;
 #define EGL_EXT_device_query_name 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_query_name;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_query_name;
 #define EGL_EXT_device_type 1
-GLAD_API_CALL int GLAD_EGL_EXT_device_type;
+GLEXT_API_CALL int GLEXT_EGL_EXT_device_type;
 #define EGL_EXT_display_alloc 1
-GLAD_API_CALL int GLAD_EGL_EXT_display_alloc;
+GLEXT_API_CALL int GLEXT_EGL_EXT_display_alloc;
 #define EGL_EXT_explicit_device 1
-GLAD_API_CALL int GLAD_EGL_EXT_explicit_device;
+GLEXT_API_CALL int GLEXT_EGL_EXT_explicit_device;
 #define EGL_EXT_gl_colorspace_bt2020_hlg 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_bt2020_hlg;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_bt2020_hlg;
 #define EGL_EXT_gl_colorspace_bt2020_linear 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_bt2020_linear;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_bt2020_linear;
 #define EGL_EXT_gl_colorspace_bt2020_pq 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_bt2020_pq;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_bt2020_pq;
 #define EGL_EXT_gl_colorspace_display_p3 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_display_p3;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_display_p3;
 #define EGL_EXT_gl_colorspace_display_p3_linear 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_display_p3_linear;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_display_p3_linear;
 #define EGL_EXT_gl_colorspace_display_p3_passthrough 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_display_p3_passthrough;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_display_p3_passthrough;
 #define EGL_EXT_gl_colorspace_scrgb 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_scrgb;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_scrgb;
 #define EGL_EXT_gl_colorspace_scrgb_linear 1
-GLAD_API_CALL int GLAD_EGL_EXT_gl_colorspace_scrgb_linear;
+GLEXT_API_CALL int GLEXT_EGL_EXT_gl_colorspace_scrgb_linear;
 #define EGL_EXT_image_dma_buf_import 1
-GLAD_API_CALL int GLAD_EGL_EXT_image_dma_buf_import;
+GLEXT_API_CALL int GLEXT_EGL_EXT_image_dma_buf_import;
 #define EGL_EXT_image_dma_buf_import_modifiers 1
-GLAD_API_CALL int GLAD_EGL_EXT_image_dma_buf_import_modifiers;
+GLEXT_API_CALL int GLEXT_EGL_EXT_image_dma_buf_import_modifiers;
 #define EGL_EXT_image_gl_colorspace 1
-GLAD_API_CALL int GLAD_EGL_EXT_image_gl_colorspace;
+GLEXT_API_CALL int GLEXT_EGL_EXT_image_gl_colorspace;
 #define EGL_EXT_image_implicit_sync_control 1
-GLAD_API_CALL int GLAD_EGL_EXT_image_implicit_sync_control;
+GLEXT_API_CALL int GLEXT_EGL_EXT_image_implicit_sync_control;
 #define EGL_EXT_multiview_window 1
-GLAD_API_CALL int GLAD_EGL_EXT_multiview_window;
+GLEXT_API_CALL int GLEXT_EGL_EXT_multiview_window;
 #define EGL_EXT_output_base 1
-GLAD_API_CALL int GLAD_EGL_EXT_output_base;
+GLEXT_API_CALL int GLEXT_EGL_EXT_output_base;
 #define EGL_EXT_output_drm 1
-GLAD_API_CALL int GLAD_EGL_EXT_output_drm;
+GLEXT_API_CALL int GLEXT_EGL_EXT_output_drm;
 #define EGL_EXT_output_openwf 1
-GLAD_API_CALL int GLAD_EGL_EXT_output_openwf;
+GLEXT_API_CALL int GLEXT_EGL_EXT_output_openwf;
 #define EGL_EXT_pixel_format_float 1
-GLAD_API_CALL int GLAD_EGL_EXT_pixel_format_float;
+GLEXT_API_CALL int GLEXT_EGL_EXT_pixel_format_float;
 #define EGL_EXT_platform_base 1
-GLAD_API_CALL int GLAD_EGL_EXT_platform_base;
+GLEXT_API_CALL int GLEXT_EGL_EXT_platform_base;
 #define EGL_EXT_platform_device 1
-GLAD_API_CALL int GLAD_EGL_EXT_platform_device;
+GLEXT_API_CALL int GLEXT_EGL_EXT_platform_device;
 #define EGL_EXT_platform_wayland 1
-GLAD_API_CALL int GLAD_EGL_EXT_platform_wayland;
+GLEXT_API_CALL int GLEXT_EGL_EXT_platform_wayland;
 #define EGL_EXT_platform_x11 1
-GLAD_API_CALL int GLAD_EGL_EXT_platform_x11;
+GLEXT_API_CALL int GLEXT_EGL_EXT_platform_x11;
 #define EGL_EXT_platform_xcb 1
-GLAD_API_CALL int GLAD_EGL_EXT_platform_xcb;
+GLEXT_API_CALL int GLEXT_EGL_EXT_platform_xcb;
 #define EGL_EXT_present_opaque 1
-GLAD_API_CALL int GLAD_EGL_EXT_present_opaque;
+GLEXT_API_CALL int GLEXT_EGL_EXT_present_opaque;
 #define EGL_EXT_protected_content 1
-GLAD_API_CALL int GLAD_EGL_EXT_protected_content;
+GLEXT_API_CALL int GLEXT_EGL_EXT_protected_content;
 #define EGL_EXT_protected_surface 1
-GLAD_API_CALL int GLAD_EGL_EXT_protected_surface;
+GLEXT_API_CALL int GLEXT_EGL_EXT_protected_surface;
 #define EGL_EXT_query_reset_notification_strategy 1
-GLAD_API_CALL int GLAD_EGL_EXT_query_reset_notification_strategy;
+GLEXT_API_CALL int GLEXT_EGL_EXT_query_reset_notification_strategy;
 #define EGL_EXT_stream_consumer_egloutput 1
-GLAD_API_CALL int GLAD_EGL_EXT_stream_consumer_egloutput;
+GLEXT_API_CALL int GLEXT_EGL_EXT_stream_consumer_egloutput;
 #define EGL_EXT_surface_CTA861_3_metadata 1
-GLAD_API_CALL int GLAD_EGL_EXT_surface_CTA861_3_metadata;
+GLEXT_API_CALL int GLEXT_EGL_EXT_surface_CTA861_3_metadata;
 #define EGL_EXT_surface_SMPTE2086_metadata 1
-GLAD_API_CALL int GLAD_EGL_EXT_surface_SMPTE2086_metadata;
+GLEXT_API_CALL int GLEXT_EGL_EXT_surface_SMPTE2086_metadata;
 #define EGL_EXT_surface_compression 1
-GLAD_API_CALL int GLAD_EGL_EXT_surface_compression;
+GLEXT_API_CALL int GLEXT_EGL_EXT_surface_compression;
 #define EGL_EXT_swap_buffers_with_damage 1
-GLAD_API_CALL int GLAD_EGL_EXT_swap_buffers_with_damage;
+GLEXT_API_CALL int GLEXT_EGL_EXT_swap_buffers_with_damage;
 #define EGL_EXT_sync_reuse 1
-GLAD_API_CALL int GLAD_EGL_EXT_sync_reuse;
+GLEXT_API_CALL int GLEXT_EGL_EXT_sync_reuse;
 #define EGL_EXT_yuv_surface 1
-GLAD_API_CALL int GLAD_EGL_EXT_yuv_surface;
+GLEXT_API_CALL int GLEXT_EGL_EXT_yuv_surface;
 #define EGL_HI_clientpixmap 1
-GLAD_API_CALL int GLAD_EGL_HI_clientpixmap;
+GLEXT_API_CALL int GLEXT_EGL_HI_clientpixmap;
 #define EGL_HI_colorformats 1
-GLAD_API_CALL int GLAD_EGL_HI_colorformats;
+GLEXT_API_CALL int GLEXT_EGL_HI_colorformats;
 #define EGL_IMG_context_priority 1
-GLAD_API_CALL int GLAD_EGL_IMG_context_priority;
+GLEXT_API_CALL int GLEXT_EGL_IMG_context_priority;
 #define EGL_IMG_image_plane_attribs 1
-GLAD_API_CALL int GLAD_EGL_IMG_image_plane_attribs;
+GLEXT_API_CALL int GLEXT_EGL_IMG_image_plane_attribs;
 #define EGL_KHR_cl_event 1
-GLAD_API_CALL int GLAD_EGL_KHR_cl_event;
+GLEXT_API_CALL int GLEXT_EGL_KHR_cl_event;
 #define EGL_KHR_cl_event2 1
-GLAD_API_CALL int GLAD_EGL_KHR_cl_event2;
+GLEXT_API_CALL int GLEXT_EGL_KHR_cl_event2;
 #define EGL_KHR_client_get_all_proc_addresses 1
-GLAD_API_CALL int GLAD_EGL_KHR_client_get_all_proc_addresses;
+GLEXT_API_CALL int GLEXT_EGL_KHR_client_get_all_proc_addresses;
 #define EGL_KHR_config_attribs 1
-GLAD_API_CALL int GLAD_EGL_KHR_config_attribs;
+GLEXT_API_CALL int GLEXT_EGL_KHR_config_attribs;
 #define EGL_KHR_context_flush_control 1
-GLAD_API_CALL int GLAD_EGL_KHR_context_flush_control;
+GLEXT_API_CALL int GLEXT_EGL_KHR_context_flush_control;
 #define EGL_KHR_create_context 1
-GLAD_API_CALL int GLAD_EGL_KHR_create_context;
+GLEXT_API_CALL int GLEXT_EGL_KHR_create_context;
 #define EGL_KHR_create_context_no_error 1
-GLAD_API_CALL int GLAD_EGL_KHR_create_context_no_error;
+GLEXT_API_CALL int GLEXT_EGL_KHR_create_context_no_error;
 #define EGL_KHR_debug 1
-GLAD_API_CALL int GLAD_EGL_KHR_debug;
+GLEXT_API_CALL int GLEXT_EGL_KHR_debug;
 #define EGL_KHR_display_reference 1
-GLAD_API_CALL int GLAD_EGL_KHR_display_reference;
+GLEXT_API_CALL int GLEXT_EGL_KHR_display_reference;
 #define EGL_KHR_fence_sync 1
-GLAD_API_CALL int GLAD_EGL_KHR_fence_sync;
+GLEXT_API_CALL int GLEXT_EGL_KHR_fence_sync;
 #define EGL_KHR_get_all_proc_addresses 1
-GLAD_API_CALL int GLAD_EGL_KHR_get_all_proc_addresses;
+GLEXT_API_CALL int GLEXT_EGL_KHR_get_all_proc_addresses;
 #define EGL_KHR_gl_colorspace 1
-GLAD_API_CALL int GLAD_EGL_KHR_gl_colorspace;
+GLEXT_API_CALL int GLEXT_EGL_KHR_gl_colorspace;
 #define EGL_KHR_gl_renderbuffer_image 1
-GLAD_API_CALL int GLAD_EGL_KHR_gl_renderbuffer_image;
+GLEXT_API_CALL int GLEXT_EGL_KHR_gl_renderbuffer_image;
 #define EGL_KHR_gl_texture_2D_image 1
-GLAD_API_CALL int GLAD_EGL_KHR_gl_texture_2D_image;
+GLEXT_API_CALL int GLEXT_EGL_KHR_gl_texture_2D_image;
 #define EGL_KHR_gl_texture_3D_image 1
-GLAD_API_CALL int GLAD_EGL_KHR_gl_texture_3D_image;
+GLEXT_API_CALL int GLEXT_EGL_KHR_gl_texture_3D_image;
 #define EGL_KHR_gl_texture_cubemap_image 1
-GLAD_API_CALL int GLAD_EGL_KHR_gl_texture_cubemap_image;
+GLEXT_API_CALL int GLEXT_EGL_KHR_gl_texture_cubemap_image;
 #define EGL_KHR_image 1
-GLAD_API_CALL int GLAD_EGL_KHR_image;
+GLEXT_API_CALL int GLEXT_EGL_KHR_image;
 #define EGL_KHR_image_base 1
-GLAD_API_CALL int GLAD_EGL_KHR_image_base;
+GLEXT_API_CALL int GLEXT_EGL_KHR_image_base;
 #define EGL_KHR_image_pixmap 1
-GLAD_API_CALL int GLAD_EGL_KHR_image_pixmap;
+GLEXT_API_CALL int GLEXT_EGL_KHR_image_pixmap;
 #define EGL_KHR_lock_surface 1
-GLAD_API_CALL int GLAD_EGL_KHR_lock_surface;
+GLEXT_API_CALL int GLEXT_EGL_KHR_lock_surface;
 #define EGL_KHR_lock_surface2 1
-GLAD_API_CALL int GLAD_EGL_KHR_lock_surface2;
+GLEXT_API_CALL int GLEXT_EGL_KHR_lock_surface2;
 #define EGL_KHR_lock_surface3 1
-GLAD_API_CALL int GLAD_EGL_KHR_lock_surface3;
+GLEXT_API_CALL int GLEXT_EGL_KHR_lock_surface3;
 #define EGL_KHR_mutable_render_buffer 1
-GLAD_API_CALL int GLAD_EGL_KHR_mutable_render_buffer;
+GLEXT_API_CALL int GLEXT_EGL_KHR_mutable_render_buffer;
 #define EGL_KHR_no_config_context 1
-GLAD_API_CALL int GLAD_EGL_KHR_no_config_context;
+GLEXT_API_CALL int GLEXT_EGL_KHR_no_config_context;
 #define EGL_KHR_partial_update 1
-GLAD_API_CALL int GLAD_EGL_KHR_partial_update;
+GLEXT_API_CALL int GLEXT_EGL_KHR_partial_update;
 #define EGL_KHR_platform_android 1
-GLAD_API_CALL int GLAD_EGL_KHR_platform_android;
+GLEXT_API_CALL int GLEXT_EGL_KHR_platform_android;
 #define EGL_KHR_platform_gbm 1
-GLAD_API_CALL int GLAD_EGL_KHR_platform_gbm;
+GLEXT_API_CALL int GLEXT_EGL_KHR_platform_gbm;
 #define EGL_KHR_platform_wayland 1
-GLAD_API_CALL int GLAD_EGL_KHR_platform_wayland;
+GLEXT_API_CALL int GLEXT_EGL_KHR_platform_wayland;
 #define EGL_KHR_platform_x11 1
-GLAD_API_CALL int GLAD_EGL_KHR_platform_x11;
+GLEXT_API_CALL int GLEXT_EGL_KHR_platform_x11;
 #define EGL_KHR_reusable_sync 1
-GLAD_API_CALL int GLAD_EGL_KHR_reusable_sync;
+GLEXT_API_CALL int GLEXT_EGL_KHR_reusable_sync;
 #define EGL_KHR_stream 1
-GLAD_API_CALL int GLAD_EGL_KHR_stream;
+GLEXT_API_CALL int GLEXT_EGL_KHR_stream;
 #define EGL_KHR_stream_attrib 1
-GLAD_API_CALL int GLAD_EGL_KHR_stream_attrib;
+GLEXT_API_CALL int GLEXT_EGL_KHR_stream_attrib;
 #define EGL_KHR_stream_consumer_gltexture 1
-GLAD_API_CALL int GLAD_EGL_KHR_stream_consumer_gltexture;
+GLEXT_API_CALL int GLEXT_EGL_KHR_stream_consumer_gltexture;
 #define EGL_KHR_stream_cross_process_fd 1
-GLAD_API_CALL int GLAD_EGL_KHR_stream_cross_process_fd;
+GLEXT_API_CALL int GLEXT_EGL_KHR_stream_cross_process_fd;
 #define EGL_KHR_stream_fifo 1
-GLAD_API_CALL int GLAD_EGL_KHR_stream_fifo;
+GLEXT_API_CALL int GLEXT_EGL_KHR_stream_fifo;
 #define EGL_KHR_stream_producer_aldatalocator 1
-GLAD_API_CALL int GLAD_EGL_KHR_stream_producer_aldatalocator;
+GLEXT_API_CALL int GLEXT_EGL_KHR_stream_producer_aldatalocator;
 #define EGL_KHR_stream_producer_eglsurface 1
-GLAD_API_CALL int GLAD_EGL_KHR_stream_producer_eglsurface;
+GLEXT_API_CALL int GLEXT_EGL_KHR_stream_producer_eglsurface;
 #define EGL_KHR_surfaceless_context 1
-GLAD_API_CALL int GLAD_EGL_KHR_surfaceless_context;
+GLEXT_API_CALL int GLEXT_EGL_KHR_surfaceless_context;
 #define EGL_KHR_swap_buffers_with_damage 1
-GLAD_API_CALL int GLAD_EGL_KHR_swap_buffers_with_damage;
+GLEXT_API_CALL int GLEXT_EGL_KHR_swap_buffers_with_damage;
 #define EGL_KHR_vg_parent_image 1
-GLAD_API_CALL int GLAD_EGL_KHR_vg_parent_image;
+GLEXT_API_CALL int GLEXT_EGL_KHR_vg_parent_image;
 #define EGL_KHR_wait_sync 1
-GLAD_API_CALL int GLAD_EGL_KHR_wait_sync;
+GLEXT_API_CALL int GLEXT_EGL_KHR_wait_sync;
 #define EGL_MESA_drm_image 1
-GLAD_API_CALL int GLAD_EGL_MESA_drm_image;
+GLEXT_API_CALL int GLEXT_EGL_MESA_drm_image;
 #define EGL_MESA_image_dma_buf_export 1
-GLAD_API_CALL int GLAD_EGL_MESA_image_dma_buf_export;
+GLEXT_API_CALL int GLEXT_EGL_MESA_image_dma_buf_export;
 #define EGL_MESA_platform_gbm 1
-GLAD_API_CALL int GLAD_EGL_MESA_platform_gbm;
+GLEXT_API_CALL int GLEXT_EGL_MESA_platform_gbm;
 #define EGL_MESA_platform_surfaceless 1
-GLAD_API_CALL int GLAD_EGL_MESA_platform_surfaceless;
+GLEXT_API_CALL int GLEXT_EGL_MESA_platform_surfaceless;
 #define EGL_MESA_query_driver 1
-GLAD_API_CALL int GLAD_EGL_MESA_query_driver;
+GLEXT_API_CALL int GLEXT_EGL_MESA_query_driver;
 #define EGL_NOK_swap_region 1
-GLAD_API_CALL int GLAD_EGL_NOK_swap_region;
+GLEXT_API_CALL int GLEXT_EGL_NOK_swap_region;
 #define EGL_NOK_swap_region2 1
-GLAD_API_CALL int GLAD_EGL_NOK_swap_region2;
+GLEXT_API_CALL int GLEXT_EGL_NOK_swap_region2;
 #define EGL_NOK_texture_from_pixmap 1
-GLAD_API_CALL int GLAD_EGL_NOK_texture_from_pixmap;
+GLEXT_API_CALL int GLEXT_EGL_NOK_texture_from_pixmap;
 #define EGL_NV_3dvision_surface 1
-GLAD_API_CALL int GLAD_EGL_NV_3dvision_surface;
+GLEXT_API_CALL int GLEXT_EGL_NV_3dvision_surface;
 #define EGL_NV_context_priority_realtime 1
-GLAD_API_CALL int GLAD_EGL_NV_context_priority_realtime;
+GLEXT_API_CALL int GLEXT_EGL_NV_context_priority_realtime;
 #define EGL_NV_coverage_sample 1
-GLAD_API_CALL int GLAD_EGL_NV_coverage_sample;
+GLEXT_API_CALL int GLEXT_EGL_NV_coverage_sample;
 #define EGL_NV_coverage_sample_resolve 1
-GLAD_API_CALL int GLAD_EGL_NV_coverage_sample_resolve;
+GLEXT_API_CALL int GLEXT_EGL_NV_coverage_sample_resolve;
 #define EGL_NV_cuda_event 1
-GLAD_API_CALL int GLAD_EGL_NV_cuda_event;
+GLEXT_API_CALL int GLEXT_EGL_NV_cuda_event;
 #define EGL_NV_depth_nonlinear 1
-GLAD_API_CALL int GLAD_EGL_NV_depth_nonlinear;
+GLEXT_API_CALL int GLEXT_EGL_NV_depth_nonlinear;
 #define EGL_NV_device_cuda 1
-GLAD_API_CALL int GLAD_EGL_NV_device_cuda;
+GLEXT_API_CALL int GLEXT_EGL_NV_device_cuda;
 #define EGL_NV_native_query 1
-GLAD_API_CALL int GLAD_EGL_NV_native_query;
+GLEXT_API_CALL int GLEXT_EGL_NV_native_query;
 #define EGL_NV_post_convert_rounding 1
-GLAD_API_CALL int GLAD_EGL_NV_post_convert_rounding;
+GLEXT_API_CALL int GLEXT_EGL_NV_post_convert_rounding;
 #define EGL_NV_post_sub_buffer 1
-GLAD_API_CALL int GLAD_EGL_NV_post_sub_buffer;
+GLEXT_API_CALL int GLEXT_EGL_NV_post_sub_buffer;
 #define EGL_NV_quadruple_buffer 1
-GLAD_API_CALL int GLAD_EGL_NV_quadruple_buffer;
+GLEXT_API_CALL int GLEXT_EGL_NV_quadruple_buffer;
 #define EGL_NV_robustness_video_memory_purge 1
-GLAD_API_CALL int GLAD_EGL_NV_robustness_video_memory_purge;
+GLEXT_API_CALL int GLEXT_EGL_NV_robustness_video_memory_purge;
 #define EGL_NV_stream_consumer_eglimage 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_consumer_eglimage;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_consumer_eglimage;
 #define EGL_NV_stream_consumer_eglimage_use_scanout_attrib 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_consumer_eglimage_use_scanout_attrib;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_consumer_eglimage_use_scanout_attrib;
 #define EGL_NV_stream_consumer_gltexture_yuv 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_consumer_gltexture_yuv;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_consumer_gltexture_yuv;
 #define EGL_NV_stream_cross_display 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_cross_display;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_cross_display;
 #define EGL_NV_stream_cross_object 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_cross_object;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_cross_object;
 #define EGL_NV_stream_cross_partition 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_cross_partition;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_cross_partition;
 #define EGL_NV_stream_cross_process 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_cross_process;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_cross_process;
 #define EGL_NV_stream_cross_system 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_cross_system;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_cross_system;
 #define EGL_NV_stream_dma 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_dma;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_dma;
 #define EGL_NV_stream_fifo_next 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_fifo_next;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_fifo_next;
 #define EGL_NV_stream_fifo_synchronous 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_fifo_synchronous;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_fifo_synchronous;
 #define EGL_NV_stream_flush 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_flush;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_flush;
 #define EGL_NV_stream_frame_limits 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_frame_limits;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_frame_limits;
 #define EGL_NV_stream_metadata 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_metadata;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_metadata;
 #define EGL_NV_stream_origin 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_origin;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_origin;
 #define EGL_NV_stream_remote 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_remote;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_remote;
 #define EGL_NV_stream_reset 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_reset;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_reset;
 #define EGL_NV_stream_socket 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_socket;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_socket;
 #define EGL_NV_stream_socket_inet 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_socket_inet;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_socket_inet;
 #define EGL_NV_stream_socket_unix 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_socket_unix;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_socket_unix;
 #define EGL_NV_stream_sync 1
-GLAD_API_CALL int GLAD_EGL_NV_stream_sync;
+GLEXT_API_CALL int GLEXT_EGL_NV_stream_sync;
 #define EGL_NV_sync 1
-GLAD_API_CALL int GLAD_EGL_NV_sync;
+GLEXT_API_CALL int GLEXT_EGL_NV_sync;
 #define EGL_NV_system_time 1
-GLAD_API_CALL int GLAD_EGL_NV_system_time;
+GLEXT_API_CALL int GLEXT_EGL_NV_system_time;
 #define EGL_NV_triple_buffer 1
-GLAD_API_CALL int GLAD_EGL_NV_triple_buffer;
+GLEXT_API_CALL int GLEXT_EGL_NV_triple_buffer;
 #define EGL_QNX_image_native_buffer 1
-GLAD_API_CALL int GLAD_EGL_QNX_image_native_buffer;
+GLEXT_API_CALL int GLEXT_EGL_QNX_image_native_buffer;
 #define EGL_QNX_platform_screen 1
-GLAD_API_CALL int GLAD_EGL_QNX_platform_screen;
+GLEXT_API_CALL int GLEXT_EGL_QNX_platform_screen;
 #define EGL_TIZEN_image_native_buffer 1
-GLAD_API_CALL int GLAD_EGL_TIZEN_image_native_buffer;
+GLEXT_API_CALL int GLEXT_EGL_TIZEN_image_native_buffer;
 #define EGL_TIZEN_image_native_surface 1
-GLAD_API_CALL int GLAD_EGL_TIZEN_image_native_surface;
+GLEXT_API_CALL int GLEXT_EGL_TIZEN_image_native_surface;
 #define EGL_WL_bind_wayland_display 1
-GLAD_API_CALL int GLAD_EGL_WL_bind_wayland_display;
+GLEXT_API_CALL int GLEXT_EGL_WL_bind_wayland_display;
 #define EGL_WL_create_wayland_buffer_from_image 1
-GLAD_API_CALL int GLAD_EGL_WL_create_wayland_buffer_from_image;
+GLEXT_API_CALL int GLEXT_EGL_WL_create_wayland_buffer_from_image;
 
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLBINDAPIPROC) (EGLenum api);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLBINDTEXIMAGEPROC) (EGLDisplay dpy,
-                                                           EGLSurface surface,
-                                                           EGLint buffer);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLBINDWAYLANDDISPLAYWLPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLBINDAPIPROC) (EGLenum api);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLBINDTEXIMAGEPROC) (EGLDisplay dpy,
+                                                            EGLSurface surface,
+                                                            EGLint buffer);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLBINDWAYLANDDISPLAYWLPROC) (
   EGLDisplay dpy, struct wl_display* display);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCHOOSECONFIGPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCHOOSECONFIGPROC) (
   EGLDisplay dpy, const EGLint* attrib_list, EGLConfig* configs,
   EGLint config_size, EGLint* num_config);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCLIENTSIGNALSYNCEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCLIENTSIGNALSYNCEXTPROC) (
   EGLDisplay dpy, EGLSync sync, const EGLAttrib* attrib_list);
-typedef EGLint (GLAD_API_PTR* PFNEGLCLIENTWAITSYNCPROC) (EGLDisplay dpy,
-                                                         EGLSync sync,
-                                                         EGLint flags,
-                                                         EGLTime timeout);
-typedef EGLint (GLAD_API_PTR* PFNEGLCLIENTWAITSYNCKHRPROC) (
+typedef EGLint (GLEXT_API_PTR* PFNEGLCLIENTWAITSYNCPROC) (EGLDisplay dpy,
+                                                          EGLSync sync,
+                                                          EGLint flags,
+                                                          EGLTime timeout);
+typedef EGLint (GLEXT_API_PTR* PFNEGLCLIENTWAITSYNCKHRPROC) (
   EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
-typedef EGLint (GLAD_API_PTR* PFNEGLCLIENTWAITSYNCNVPROC) (EGLSyncNV sync,
-                                                           EGLint flags,
-                                                           EGLTimeNV timeout);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCOMPOSITORBINDTEXWINDOWEXTPROC) (
+typedef EGLint (GLEXT_API_PTR* PFNEGLCLIENTWAITSYNCNVPROC) (EGLSyncNV sync,
+                                                            EGLint flags,
+                                                            EGLTimeNV timeout);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCOMPOSITORBINDTEXWINDOWEXTPROC) (
   EGLint external_win_id);
 typedef EGLBoolean (
-  GLAD_API_PTR* PFNEGLCOMPOSITORSETCONTEXTATTRIBUTESEXTPROC) (
+  GLEXT_API_PTR* PFNEGLCOMPOSITORSETCONTEXTATTRIBUTESEXTPROC) (
   EGLint external_ref_id, const EGLint* context_attributes,
   EGLint num_entries);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCOMPOSITORSETCONTEXTLISTEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCOMPOSITORSETCONTEXTLISTEXTPROC) (
   const EGLint* external_ref_ids, EGLint num_entries);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCOMPOSITORSETSIZEEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCOMPOSITORSETSIZEEXTPROC) (
   EGLint external_win_id, EGLint width, EGLint height);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCOMPOSITORSETWINDOWATTRIBUTESEXTPROC) (
+typedef EGLBoolean (
+  GLEXT_API_PTR* PFNEGLCOMPOSITORSETWINDOWATTRIBUTESEXTPROC) (
   EGLint external_win_id, const EGLint* window_attributes, EGLint num_entries);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCOMPOSITORSETWINDOWLISTEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCOMPOSITORSETWINDOWLISTEXTPROC) (
   EGLint external_ref_id, const EGLint* external_win_ids, EGLint num_entries);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCOMPOSITORSWAPPOLICYEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCOMPOSITORSWAPPOLICYEXTPROC) (
   EGLint external_win_id, EGLint policy);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLCOPYBUFFERSPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLCOPYBUFFERSPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
-typedef EGLContext (GLAD_API_PTR* PFNEGLCREATECONTEXTPROC) (
+typedef EGLContext (GLEXT_API_PTR* PFNEGLCREATECONTEXTPROC) (
   EGLDisplay dpy, EGLConfig config, EGLContext share_context,
   const EGLint* attrib_list);
-typedef EGLImageKHR (GLAD_API_PTR* PFNEGLCREATEDRMIMAGEMESAPROC) (
+typedef EGLImageKHR (GLEXT_API_PTR* PFNEGLCREATEDRMIMAGEMESAPROC) (
   EGLDisplay dpy, const EGLint* attrib_list);
-typedef EGLSyncNV (GLAD_API_PTR* PFNEGLCREATEFENCESYNCNVPROC) (
+typedef EGLSyncNV (GLEXT_API_PTR* PFNEGLCREATEFENCESYNCNVPROC) (
   EGLDisplay dpy, EGLenum condition, const EGLint* attrib_list);
-typedef EGLImage (GLAD_API_PTR* PFNEGLCREATEIMAGEPROC) (
+typedef EGLImage (GLEXT_API_PTR* PFNEGLCREATEIMAGEPROC) (
   EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer,
   const EGLAttrib* attrib_list);
-typedef EGLImageKHR (GLAD_API_PTR* PFNEGLCREATEIMAGEKHRPROC) (
+typedef EGLImageKHR (GLEXT_API_PTR* PFNEGLCREATEIMAGEKHRPROC) (
   EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer,
   const EGLint* attrib_list);
 typedef EGLClientBuffer (
-  GLAD_API_PTR* PFNEGLCREATENATIVECLIENTBUFFERANDROIDPROC) (
+  GLEXT_API_PTR* PFNEGLCREATENATIVECLIENTBUFFERANDROIDPROC) (
   const EGLint* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPBUFFERFROMCLIENTBUFFERPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPBUFFERFROMCLIENTBUFFERPROC) (
   EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config,
   const EGLint* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPBUFFERSURFACEPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPBUFFERSURFACEPROC) (
   EGLDisplay dpy, EGLConfig config, const EGLint* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPIXMAPSURFACEPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPIXMAPSURFACEPROC) (
   EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap,
   const EGLint* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPIXMAPSURFACEHIPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPIXMAPSURFACEHIPROC) (
   EGLDisplay dpy, EGLConfig config, struct EGLClientPixmapHI* pixmap);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPLATFORMPIXMAPSURFACEPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPLATFORMPIXMAPSURFACEPROC) (
   EGLDisplay dpy, EGLConfig config, void* native_pixmap,
   const EGLAttrib* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPLATFORMPIXMAPSURFACEEXTPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPLATFORMPIXMAPSURFACEEXTPROC) (
   EGLDisplay dpy, EGLConfig config, void* native_pixmap,
   const EGLint* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPLATFORMWINDOWSURFACEPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPLATFORMWINDOWSURFACEPROC) (
   EGLDisplay dpy, EGLConfig config, void* native_window,
   const EGLAttrib* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC) (
   EGLDisplay dpy, EGLConfig config, void* native_window,
   const EGLint* attrib_list);
-typedef EGLStreamKHR (GLAD_API_PTR* PFNEGLCREATESTREAMATTRIBKHRPROC) (
+typedef EGLStreamKHR (GLEXT_API_PTR* PFNEGLCREATESTREAMATTRIBKHRPROC) (
   EGLDisplay dpy, const EGLAttrib* attrib_list);
 typedef EGLStreamKHR (
-  GLAD_API_PTR* PFNEGLCREATESTREAMFROMFILEDESCRIPTORKHRPROC) (
+  GLEXT_API_PTR* PFNEGLCREATESTREAMFROMFILEDESCRIPTORKHRPROC) (
   EGLDisplay dpy, EGLNativeFileDescriptorKHR file_descriptor);
-typedef EGLStreamKHR (GLAD_API_PTR* PFNEGLCREATESTREAMKHRPROC) (
+typedef EGLStreamKHR (GLEXT_API_PTR* PFNEGLCREATESTREAMKHRPROC) (
   EGLDisplay dpy, const EGLint* attrib_list);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATESTREAMPRODUCERSURFACEKHRPROC) (
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATESTREAMPRODUCERSURFACEKHRPROC) (
   EGLDisplay dpy, EGLConfig config, EGLStreamKHR stream,
   const EGLint* attrib_list);
-typedef EGLSyncKHR (GLAD_API_PTR* PFNEGLCREATESTREAMSYNCNVPROC) (
+typedef EGLSyncKHR (GLEXT_API_PTR* PFNEGLCREATESTREAMSYNCNVPROC) (
   EGLDisplay dpy, EGLStreamKHR stream, EGLenum type,
   const EGLint* attrib_list);
-typedef EGLSync (GLAD_API_PTR* PFNEGLCREATESYNCPROC) (
+typedef EGLSync (GLEXT_API_PTR* PFNEGLCREATESYNCPROC) (
   EGLDisplay dpy, EGLenum type, const EGLAttrib* attrib_list);
-typedef EGLSyncKHR (GLAD_API_PTR* PFNEGLCREATESYNC64KHRPROC) (
+typedef EGLSyncKHR (GLEXT_API_PTR* PFNEGLCREATESYNC64KHRPROC) (
   EGLDisplay dpy, EGLenum type, const EGLAttribKHR* attrib_list);
-typedef EGLSyncKHR (GLAD_API_PTR* PFNEGLCREATESYNCKHRPROC) (
+typedef EGLSyncKHR (GLEXT_API_PTR* PFNEGLCREATESYNCKHRPROC) (
   EGLDisplay dpy, EGLenum type, const EGLint* attrib_list);
 typedef struct wl_buffer*(
-  GLAD_API_PTR* PFNEGLCREATEWAYLANDBUFFERFROMIMAGEWLPROC) (EGLDisplay dpy,
-                                                           EGLImageKHR image);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLCREATEWINDOWSURFACEPROC) (
+  GLEXT_API_PTR* PFNEGLCREATEWAYLANDBUFFERFROMIMAGEWLPROC) (EGLDisplay dpy,
+                                                            EGLImageKHR image);
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLCREATEWINDOWSURFACEPROC) (
   EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win,
   const EGLint* attrib_list);
-typedef EGLint (GLAD_API_PTR* PFNEGLDEBUGMESSAGECONTROLKHRPROC) (
+typedef EGLint (GLEXT_API_PTR* PFNEGLDEBUGMESSAGECONTROLKHRPROC) (
   EGLDEBUGPROCKHR callback, const EGLAttrib* attrib_list);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy,
-                                                             EGLContext ctx);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYDISPLAYEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy,
+                                                              EGLContext ctx);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYDISPLAYEXTPROC) (
   EGLDisplay dpy);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYIMAGEPROC) (EGLDisplay dpy,
-                                                           EGLImage image);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYIMAGEKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYIMAGEPROC) (EGLDisplay dpy,
+                                                            EGLImage image);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYIMAGEKHRPROC) (
   EGLDisplay dpy, EGLImageKHR image);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYSTREAMKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYSTREAMKHRPROC) (
   EGLDisplay dpy, EGLStreamKHR stream);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYSURFACEPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYSURFACEPROC) (
   EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYSYNCPROC) (EGLDisplay dpy,
-                                                          EGLSync sync);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYSYNCKHRPROC) (EGLDisplay dpy,
-                                                             EGLSyncKHR sync);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLDESTROYSYNCNVPROC) (EGLSyncNV sync);
-typedef EGLint (GLAD_API_PTR* PFNEGLDUPNATIVEFENCEFDANDROIDPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYSYNCPROC) (EGLDisplay dpy,
+                                                           EGLSync sync);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYSYNCKHRPROC) (EGLDisplay dpy,
+                                                              EGLSyncKHR sync);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLDESTROYSYNCNVPROC) (EGLSyncNV sync);
+typedef EGLint (GLEXT_API_PTR* PFNEGLDUPNATIVEFENCEFDANDROIDPROC) (
   EGLDisplay dpy, EGLSyncKHR sync);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLEXPORTDMABUFIMAGEMESAPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLEXPORTDMABUFIMAGEMESAPROC) (
   EGLDisplay dpy, EGLImageKHR image, int* fds, EGLint* strides,
   EGLint* offsets);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLEXPORTDMABUFIMAGEQUERYMESAPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLEXPORTDMABUFIMAGEQUERYMESAPROC) (
   EGLDisplay dpy, EGLImageKHR image, int* fourcc, int* num_planes,
   EGLuint64KHR* modifiers);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLEXPORTDRMIMAGEMESAPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLEXPORTDRMIMAGEMESAPROC) (
   EGLDisplay dpy, EGLImageKHR image, EGLint* name, EGLint* handle,
   EGLint* stride);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLFENCENVPROC) (EGLSyncNV sync);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETCOMPOSITORTIMINGANDROIDPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLFENCENVPROC) (EGLSyncNV sync);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETCOMPOSITORTIMINGANDROIDPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLint numTimestamps,
   const EGLint* names, EGLnsecsANDROID* values);
 typedef EGLBoolean (
-  GLAD_API_PTR* PFNEGLGETCOMPOSITORTIMINGSUPPORTEDANDROIDPROC) (
+  GLEXT_API_PTR* PFNEGLGETCOMPOSITORTIMINGSUPPORTEDANDROIDPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLint name);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETCONFIGATTRIBPROC) (EGLDisplay dpy,
-                                                              EGLConfig config,
-                                                              EGLint attribute,
-                                                              EGLint* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETCONFIGSPROC) (EGLDisplay dpy,
-                                                         EGLConfig* configs,
-                                                         EGLint config_size,
-                                                         EGLint* num_config);
-typedef EGLContext (GLAD_API_PTR* PFNEGLGETCURRENTCONTEXTPROC) (void);
-typedef EGLDisplay (GLAD_API_PTR* PFNEGLGETCURRENTDISPLAYPROC) (void);
-typedef EGLSurface (GLAD_API_PTR* PFNEGLGETCURRENTSURFACEPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETCONFIGATTRIBPROC) (
+  EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint* value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETCONFIGSPROC) (EGLDisplay dpy,
+                                                          EGLConfig* configs,
+                                                          EGLint config_size,
+                                                          EGLint* num_config);
+typedef EGLContext (GLEXT_API_PTR* PFNEGLGETCURRENTCONTEXTPROC) (void);
+typedef EGLDisplay (GLEXT_API_PTR* PFNEGLGETCURRENTDISPLAYPROC) (void);
+typedef EGLSurface (GLEXT_API_PTR* PFNEGLGETCURRENTSURFACEPROC) (
   EGLint readdraw);
-typedef EGLDisplay (GLAD_API_PTR* PFNEGLGETDISPLAYPROC) (
+typedef EGLDisplay (GLEXT_API_PTR* PFNEGLGETDISPLAYPROC) (
   EGLNativeDisplayType display_id);
-typedef char*(GLAD_API_PTR* PFNEGLGETDISPLAYDRIVERCONFIGPROC) (EGLDisplay dpy);
-typedef const char*(GLAD_API_PTR* PFNEGLGETDISPLAYDRIVERNAMEPROC) (
+typedef char*(GLEXT_API_PTR* PFNEGLGETDISPLAYDRIVERCONFIGPROC) (
   EGLDisplay dpy);
-typedef EGLint (GLAD_API_PTR* PFNEGLGETERRORPROC) (void);
+typedef const char*(GLEXT_API_PTR* PFNEGLGETDISPLAYDRIVERNAMEPROC) (
+  EGLDisplay dpy);
+typedef EGLint (GLEXT_API_PTR* PFNEGLGETERRORPROC) (void);
 typedef EGLBoolean (
-  GLAD_API_PTR* PFNEGLGETFRAMETIMESTAMPSUPPORTEDANDROIDPROC) (
+  GLEXT_API_PTR* PFNEGLGETFRAMETIMESTAMPSUPPORTEDANDROIDPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLint timestamp);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETFRAMETIMESTAMPSANDROIDPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETFRAMETIMESTAMPSANDROIDPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLuint64KHR frameId,
   EGLint numTimestamps, const EGLint* timestamps, EGLnsecsANDROID* values);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETMSCRATEANGLEPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETMSCRATEANGLEPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLint* numerator, EGLint* denominator);
 typedef EGLClientBuffer (
-  GLAD_API_PTR* PFNEGLGETNATIVECLIENTBUFFERANDROIDPROC) (
+  GLEXT_API_PTR* PFNEGLGETNATIVECLIENTBUFFERANDROIDPROC) (
   const struct AHardwareBuffer* buffer);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETNEXTFRAMEIDANDROIDPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETNEXTFRAMEIDANDROIDPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLuint64KHR* frameId);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETOUTPUTLAYERSEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETOUTPUTLAYERSEXTPROC) (
   EGLDisplay dpy, const EGLAttrib* attrib_list, EGLOutputLayerEXT* layers,
   EGLint max_layers, EGLint* num_layers);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETOUTPUTPORTSEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETOUTPUTPORTSEXTPROC) (
   EGLDisplay dpy, const EGLAttrib* attrib_list, EGLOutputPortEXT* ports,
   EGLint max_ports, EGLint* num_ports);
-typedef EGLDisplay (GLAD_API_PTR* PFNEGLGETPLATFORMDISPLAYPROC) (
+typedef EGLDisplay (GLEXT_API_PTR* PFNEGLGETPLATFORMDISPLAYPROC) (
   EGLenum platform, void* native_display, const EGLAttrib* attrib_list);
-typedef EGLDisplay (GLAD_API_PTR* PFNEGLGETPLATFORMDISPLAYEXTPROC) (
+typedef EGLDisplay (GLEXT_API_PTR* PFNEGLGETPLATFORMDISPLAYEXTPROC) (
   EGLenum platform, void* native_display, const EGLint* attrib_list);
 typedef __eglMustCastToProperFunctionPointerType (
-  GLAD_API_PTR* PFNEGLGETPROCADDRESSPROC) (const char* procname);
+  GLEXT_API_PTR* PFNEGLGETPROCADDRESSPROC) (const char* procname);
 typedef EGLNativeFileDescriptorKHR (
-  GLAD_API_PTR* PFNEGLGETSTREAMFILEDESCRIPTORKHRPROC) (EGLDisplay dpy,
-                                                       EGLStreamKHR stream);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETSYNCATTRIBPROC) (EGLDisplay dpy,
-                                                            EGLSync sync,
-                                                            EGLint attribute,
-                                                            EGLAttrib* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETSYNCATTRIBKHRPROC) (
+  GLEXT_API_PTR* PFNEGLGETSTREAMFILEDESCRIPTORKHRPROC) (EGLDisplay dpy,
+                                                        EGLStreamKHR stream);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETSYNCATTRIBPROC) (EGLDisplay dpy,
+                                                             EGLSync sync,
+                                                             EGLint attribute,
+                                                             EGLAttrib* value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETSYNCATTRIBKHRPROC) (
   EGLDisplay dpy, EGLSyncKHR sync, EGLint attribute, EGLint* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLGETSYNCATTRIBNVPROC) (EGLSyncNV sync,
-                                                              EGLint attribute,
-                                                              EGLint* value);
-typedef EGLuint64NV (GLAD_API_PTR* PFNEGLGETSYSTEMTIMEFREQUENCYNVPROC) (void);
-typedef EGLuint64NV (GLAD_API_PTR* PFNEGLGETSYSTEMTIMENVPROC) (void);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLINITIALIZEPROC) (EGLDisplay dpy,
-                                                         EGLint* major,
-                                                         EGLint* minor);
-typedef EGLint (GLAD_API_PTR* PFNEGLLABELOBJECTKHRPROC) (EGLDisplay display,
-                                                         EGLenum objectType,
-                                                         EGLObjectKHR object,
-                                                         EGLLabelKHR label);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLLOCKSURFACEKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLGETSYNCATTRIBNVPROC) (
+  EGLSyncNV sync, EGLint attribute, EGLint* value);
+typedef EGLuint64NV (GLEXT_API_PTR* PFNEGLGETSYSTEMTIMEFREQUENCYNVPROC) (void);
+typedef EGLuint64NV (GLEXT_API_PTR* PFNEGLGETSYSTEMTIMENVPROC) (void);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLINITIALIZEPROC) (EGLDisplay dpy,
+                                                          EGLint* major,
+                                                          EGLint* minor);
+typedef EGLint (GLEXT_API_PTR* PFNEGLLABELOBJECTKHRPROC) (EGLDisplay display,
+                                                          EGLenum objectType,
+                                                          EGLObjectKHR object,
+                                                          EGLLabelKHR label);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLLOCKSURFACEKHRPROC) (
   EGLDisplay dpy, EGLSurface surface, const EGLint* attrib_list);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLMAKECURRENTPROC) (EGLDisplay dpy,
-                                                          EGLSurface draw,
-                                                          EGLSurface read,
-                                                          EGLContext ctx);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLOUTPUTLAYERATTRIBEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLMAKECURRENTPROC) (EGLDisplay dpy,
+                                                           EGLSurface draw,
+                                                           EGLSurface read,
+                                                           EGLContext ctx);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLOUTPUTLAYERATTRIBEXTPROC) (
   EGLDisplay dpy, EGLOutputLayerEXT layer, EGLint attribute, EGLAttrib value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLOUTPUTPORTATTRIBEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLOUTPUTPORTATTRIBEXTPROC) (
   EGLDisplay dpy, EGLOutputPortEXT port, EGLint attribute, EGLAttrib value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLPOSTSUBBUFFERNVPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLPOSTSUBBUFFERNVPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLint x, EGLint y, EGLint width,
   EGLint height);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLPRESENTATIONTIMEANDROIDPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLPRESENTATIONTIMEANDROIDPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLnsecsANDROID time);
-typedef EGLenum (GLAD_API_PTR* PFNEGLQUERYAPIPROC) (void);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYCONTEXTPROC) (EGLDisplay dpy,
-                                                           EGLContext ctx,
-                                                           EGLint attribute,
-                                                           EGLint* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDEBUGKHRPROC) (EGLint attribute,
-                                                            EGLAttrib* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDEVICEATTRIBEXTPROC) (
+typedef EGLenum (GLEXT_API_PTR* PFNEGLQUERYAPIPROC) (void);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYCONTEXTPROC) (EGLDisplay dpy,
+                                                            EGLContext ctx,
+                                                            EGLint attribute,
+                                                            EGLint* value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDEBUGKHRPROC) (EGLint attribute,
+                                                             EGLAttrib* value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDEVICEATTRIBEXTPROC) (
   EGLDeviceEXT device, EGLint attribute, EGLAttrib* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDEVICEBINARYEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDEVICEBINARYEXTPROC) (
   EGLDeviceEXT device, EGLint name, EGLint max_size, void* value,
   EGLint* size);
-typedef const char*(GLAD_API_PTR* PFNEGLQUERYDEVICESTRINGEXTPROC) (
+typedef const char*(GLEXT_API_PTR* PFNEGLQUERYDEVICESTRINGEXTPROC) (
   EGLDeviceEXT device, EGLint name);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDEVICESEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDEVICESEXTPROC) (
   EGLint max_devices, EGLDeviceEXT* devices, EGLint* num_devices);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDISPLAYATTRIBEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDISPLAYATTRIBEXTPROC) (
   EGLDisplay dpy, EGLint attribute, EGLAttrib* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDISPLAYATTRIBKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDISPLAYATTRIBKHRPROC) (
   EGLDisplay dpy, EGLint name, EGLAttrib* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDISPLAYATTRIBNVPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDISPLAYATTRIBNVPROC) (
   EGLDisplay dpy, EGLint attribute, EGLAttrib* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDMABUFFORMATSEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDMABUFFORMATSEXTPROC) (
   EGLDisplay dpy, EGLint max_formats, EGLint* formats, EGLint* num_formats);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYDMABUFMODIFIERSEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYDMABUFMODIFIERSEXTPROC) (
   EGLDisplay dpy, EGLint format, EGLint max_modifiers, EGLuint64KHR* modifiers,
   EGLBoolean* external_only, EGLint* num_modifiers);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYNATIVEDISPLAYNVPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYNATIVEDISPLAYNVPROC) (
   EGLDisplay dpy, EGLNativeDisplayType* display_id);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYNATIVEPIXMAPNVPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYNATIVEPIXMAPNVPROC) (
   EGLDisplay dpy, EGLSurface surf, EGLNativePixmapType* pixmap);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYNATIVEWINDOWNVPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYNATIVEWINDOWNVPROC) (
   EGLDisplay dpy, EGLSurface surf, EGLNativeWindowType* window);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYOUTPUTLAYERATTRIBEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYOUTPUTLAYERATTRIBEXTPROC) (
   EGLDisplay dpy, EGLOutputLayerEXT layer, EGLint attribute, EGLAttrib* value);
-typedef const char*(GLAD_API_PTR* PFNEGLQUERYOUTPUTLAYERSTRINGEXTPROC) (
+typedef const char*(GLEXT_API_PTR* PFNEGLQUERYOUTPUTLAYERSTRINGEXTPROC) (
   EGLDisplay dpy, EGLOutputLayerEXT layer, EGLint name);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYOUTPUTPORTATTRIBEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYOUTPUTPORTATTRIBEXTPROC) (
   EGLDisplay dpy, EGLOutputPortEXT port, EGLint attribute, EGLAttrib* value);
-typedef const char*(GLAD_API_PTR* PFNEGLQUERYOUTPUTPORTSTRINGEXTPROC) (
+typedef const char*(GLEXT_API_PTR* PFNEGLQUERYOUTPUTPORTSTRINGEXTPROC) (
   EGLDisplay dpy, EGLOutputPortEXT port, EGLint name);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSTREAMATTRIBKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSTREAMATTRIBKHRPROC) (
   EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLAttrib* value);
-typedef EGLint (GLAD_API_PTR* PFNEGLQUERYSTREAMCONSUMEREVENTNVPROC) (
+typedef EGLint (GLEXT_API_PTR* PFNEGLQUERYSTREAMCONSUMEREVENTNVPROC) (
   EGLDisplay dpy, EGLStreamKHR stream, EGLTime timeout, EGLenum* event,
   EGLAttrib* aux);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSTREAMKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSTREAMKHRPROC) (
   EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLint* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSTREAMMETADATANVPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSTREAMMETADATANVPROC) (
   EGLDisplay dpy, EGLStreamKHR stream, EGLenum name, EGLint n, EGLint offset,
   EGLint size, void* data);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSTREAMTIMEKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSTREAMTIMEKHRPROC) (
   EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLTimeKHR* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSTREAMU64KHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSTREAMU64KHRPROC) (
   EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLuint64KHR* value);
-typedef const char*(GLAD_API_PTR* PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy,
-                                                          EGLint name);
+typedef const char*(GLEXT_API_PTR* PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy,
+                                                           EGLint name);
 typedef EGLBoolean (
-  GLAD_API_PTR* PFNEGLQUERYSUPPORTEDCOMPRESSIONRATESEXTPROC) (
+  GLEXT_API_PTR* PFNEGLQUERYSUPPORTEDCOMPRESSIONRATESEXTPROC) (
   EGLDisplay dpy, EGLConfig config, const EGLAttrib* attrib_list,
   EGLint* rates, EGLint rate_size, EGLint* num_rates);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSURFACEPROC) (EGLDisplay dpy,
-                                                           EGLSurface surface,
-                                                           EGLint attribute,
-                                                           EGLint* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSURFACE64KHRPROC) (
-  EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLAttribKHR* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYSURFACEPOINTERANGLEPROC) (
-  EGLDisplay dpy, EGLSurface surface, EGLint attribute, void** value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLQUERYWAYLANDBUFFERWLPROC) (
-  EGLDisplay dpy, struct wl_resource* buffer, EGLint attribute, EGLint* value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLRELEASETEXIMAGEPROC) (
-  EGLDisplay dpy, EGLSurface surface, EGLint buffer);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLRELEASETHREADPROC) (void);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLRESETSTREAMNVPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream);
-typedef void (GLAD_API_PTR* PFNEGLSETBLOBCACHEFUNCSANDROIDPROC) (
-  EGLDisplay dpy, EGLSetBlobFuncANDROID set, EGLGetBlobFuncANDROID get);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSETDAMAGEREGIONKHRPROC) (
-  EGLDisplay dpy, EGLSurface surface, EGLint* rects, EGLint n_rects);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSETSTREAMATTRIBKHRPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLAttrib value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSETSTREAMMETADATANVPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, EGLint n, EGLint offset, EGLint size,
-  const void* data);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSIGNALSYNCKHRPROC) (EGLDisplay dpy,
-                                                            EGLSyncKHR sync,
-                                                            EGLenum mode);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSIGNALSYNCNVPROC) (EGLSyncNV sync,
-                                                           EGLenum mode);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMACQUIREIMAGENVPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, EGLImage* pImage, EGLSync sync);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMATTRIBKHRPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLint value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMCONSUMERACQUIREATTRIBKHRPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, const EGLAttrib* attrib_list);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMCONSUMERACQUIREKHRPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream);
-typedef EGLBoolean (
-  GLAD_API_PTR* PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALATTRIBSNVPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, const EGLAttrib* attrib_list);
-typedef EGLBoolean (
-  GLAD_API_PTR* PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALKHRPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMCONSUMEROUTPUTEXTPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, EGLOutputLayerEXT layer);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMCONSUMERRELEASEATTRIBKHRPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, const EGLAttrib* attrib_list);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMCONSUMERRELEASEKHRPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMFLUSHNVPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMIMAGECONSUMERCONNECTNVPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, EGLint num_modifiers,
-  const EGLuint64KHR* modifiers, const EGLAttrib* attrib_list);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSTREAMRELEASEIMAGENVPROC) (
-  EGLDisplay dpy, EGLStreamKHR stream, EGLImage image, EGLSync sync);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSURFACEATTRIBPROC) (EGLDisplay dpy,
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSURFACEPROC) (EGLDisplay dpy,
                                                             EGLSurface surface,
                                                             EGLint attribute,
-                                                            EGLint value);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy,
-                                                          EGLSurface surface);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSWAPBUFFERSREGION2NOKPROC) (
+                                                            EGLint* value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSURFACE64KHRPROC) (
+  EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLAttribKHR* value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYSURFACEPOINTERANGLEPROC) (
+  EGLDisplay dpy, EGLSurface surface, EGLint attribute, void** value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLQUERYWAYLANDBUFFERWLPROC) (
+  EGLDisplay dpy, struct wl_resource* buffer, EGLint attribute, EGLint* value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLRELEASETEXIMAGEPROC) (
+  EGLDisplay dpy, EGLSurface surface, EGLint buffer);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLRELEASETHREADPROC) (void);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLRESETSTREAMNVPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream);
+typedef void (GLEXT_API_PTR* PFNEGLSETBLOBCACHEFUNCSANDROIDPROC) (
+  EGLDisplay dpy, EGLSetBlobFuncANDROID set, EGLGetBlobFuncANDROID get);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSETDAMAGEREGIONKHRPROC) (
+  EGLDisplay dpy, EGLSurface surface, EGLint* rects, EGLint n_rects);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSETSTREAMATTRIBKHRPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLAttrib value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSETSTREAMMETADATANVPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, EGLint n, EGLint offset, EGLint size,
+  const void* data);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSIGNALSYNCKHRPROC) (EGLDisplay dpy,
+                                                             EGLSyncKHR sync,
+                                                             EGLenum mode);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSIGNALSYNCNVPROC) (EGLSyncNV sync,
+                                                            EGLenum mode);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMACQUIREIMAGENVPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, EGLImage* pImage, EGLSync sync);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMATTRIBKHRPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLint value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMCONSUMERACQUIREATTRIBKHRPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, const EGLAttrib* attrib_list);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMCONSUMERACQUIREKHRPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (
+  GLEXT_API_PTR* PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALATTRIBSNVPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, const EGLAttrib* attrib_list);
+typedef EGLBoolean (
+  GLEXT_API_PTR* PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALKHRPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMCONSUMEROUTPUTEXTPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, EGLOutputLayerEXT layer);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMCONSUMERRELEASEATTRIBKHRPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, const EGLAttrib* attrib_list);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMCONSUMERRELEASEKHRPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMFLUSHNVPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMIMAGECONSUMERCONNECTNVPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, EGLint num_modifiers,
+  const EGLuint64KHR* modifiers, const EGLAttrib* attrib_list);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSTREAMRELEASEIMAGENVPROC) (
+  EGLDisplay dpy, EGLStreamKHR stream, EGLImage image, EGLSync sync);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSURFACEATTRIBPROC) (
+  EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy,
+                                                           EGLSurface surface);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSWAPBUFFERSREGION2NOKPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLint numRects, const EGLint* rects);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSWAPBUFFERSREGIONNOKPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSWAPBUFFERSREGIONNOKPROC) (
   EGLDisplay dpy, EGLSurface surface, EGLint numRects, const EGLint* rects);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC) (
   EGLDisplay dpy, EGLSurface surface, const EGLint* rects, EGLint n_rects);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSWAPBUFFERSWITHDAMAGEKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSWAPBUFFERSWITHDAMAGEKHRPROC) (
   EGLDisplay dpy, EGLSurface surface, const EGLint* rects, EGLint n_rects);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy,
-                                                           EGLint interval);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLTERMINATEPROC) (EGLDisplay dpy);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLUNBINDWAYLANDDISPLAYWLPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy,
+                                                            EGLint interval);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLTERMINATEPROC) (EGLDisplay dpy);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLUNBINDWAYLANDDISPLAYWLPROC) (
   EGLDisplay dpy, struct wl_display* display);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLUNLOCKSURFACEKHRPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLUNLOCKSURFACEKHRPROC) (
   EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLUNSIGNALSYNCEXTPROC) (
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLUNSIGNALSYNCEXTPROC) (
   EGLDisplay dpy, EGLSync sync, const EGLAttrib* attrib_list);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLWAITCLIENTPROC) (void);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLWAITGLPROC) (void);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLWAITNATIVEPROC) (EGLint engine);
-typedef EGLBoolean (GLAD_API_PTR* PFNEGLWAITSYNCPROC) (EGLDisplay dpy,
-                                                       EGLSync sync,
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLWAITCLIENTPROC) (void);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLWAITGLPROC) (void);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLWAITNATIVEPROC) (EGLint engine);
+typedef EGLBoolean (GLEXT_API_PTR* PFNEGLWAITSYNCPROC) (EGLDisplay dpy,
+                                                        EGLSync sync,
+                                                        EGLint flags);
+typedef EGLint (GLEXT_API_PTR* PFNEGLWAITSYNCKHRPROC) (EGLDisplay dpy,
+                                                       EGLSyncKHR sync,
                                                        EGLint flags);
-typedef EGLint (GLAD_API_PTR* PFNEGLWAITSYNCKHRPROC) (EGLDisplay dpy,
-                                                      EGLSyncKHR sync,
-                                                      EGLint flags);
 
-GLAD_API_CALL PFNEGLBINDAPIPROC glad_eglBindAPI;
-#define eglBindAPI glad_eglBindAPI
-GLAD_API_CALL PFNEGLBINDTEXIMAGEPROC glad_eglBindTexImage;
-#define eglBindTexImage glad_eglBindTexImage
-GLAD_API_CALL PFNEGLBINDWAYLANDDISPLAYWLPROC glad_eglBindWaylandDisplayWL;
-#define eglBindWaylandDisplayWL glad_eglBindWaylandDisplayWL
-GLAD_API_CALL PFNEGLCHOOSECONFIGPROC glad_eglChooseConfig;
-#define eglChooseConfig glad_eglChooseConfig
-GLAD_API_CALL PFNEGLCLIENTSIGNALSYNCEXTPROC glad_eglClientSignalSyncEXT;
-#define eglClientSignalSyncEXT glad_eglClientSignalSyncEXT
-GLAD_API_CALL PFNEGLCLIENTWAITSYNCPROC glad_eglClientWaitSync;
-#define eglClientWaitSync glad_eglClientWaitSync
-GLAD_API_CALL PFNEGLCLIENTWAITSYNCKHRPROC glad_eglClientWaitSyncKHR;
-#define eglClientWaitSyncKHR glad_eglClientWaitSyncKHR
-GLAD_API_CALL PFNEGLCLIENTWAITSYNCNVPROC glad_eglClientWaitSyncNV;
-#define eglClientWaitSyncNV glad_eglClientWaitSyncNV
-GLAD_API_CALL PFNEGLCOMPOSITORBINDTEXWINDOWEXTPROC
-  glad_eglCompositorBindTexWindowEXT;
-#define eglCompositorBindTexWindowEXT glad_eglCompositorBindTexWindowEXT
-GLAD_API_CALL PFNEGLCOMPOSITORSETCONTEXTATTRIBUTESEXTPROC
-  glad_eglCompositorSetContextAttributesEXT;
+GLEXT_API_CALL PFNEGLBINDAPIPROC glext_eglBindAPI;
+#define eglBindAPI glext_eglBindAPI
+GLEXT_API_CALL PFNEGLBINDTEXIMAGEPROC glext_eglBindTexImage;
+#define eglBindTexImage glext_eglBindTexImage
+GLEXT_API_CALL PFNEGLBINDWAYLANDDISPLAYWLPROC glext_eglBindWaylandDisplayWL;
+#define eglBindWaylandDisplayWL glext_eglBindWaylandDisplayWL
+GLEXT_API_CALL PFNEGLCHOOSECONFIGPROC glext_eglChooseConfig;
+#define eglChooseConfig glext_eglChooseConfig
+GLEXT_API_CALL PFNEGLCLIENTSIGNALSYNCEXTPROC glext_eglClientSignalSyncEXT;
+#define eglClientSignalSyncEXT glext_eglClientSignalSyncEXT
+GLEXT_API_CALL PFNEGLCLIENTWAITSYNCPROC glext_eglClientWaitSync;
+#define eglClientWaitSync glext_eglClientWaitSync
+GLEXT_API_CALL PFNEGLCLIENTWAITSYNCKHRPROC glext_eglClientWaitSyncKHR;
+#define eglClientWaitSyncKHR glext_eglClientWaitSyncKHR
+GLEXT_API_CALL PFNEGLCLIENTWAITSYNCNVPROC glext_eglClientWaitSyncNV;
+#define eglClientWaitSyncNV glext_eglClientWaitSyncNV
+GLEXT_API_CALL PFNEGLCOMPOSITORBINDTEXWINDOWEXTPROC
+  glext_eglCompositorBindTexWindowEXT;
+#define eglCompositorBindTexWindowEXT glext_eglCompositorBindTexWindowEXT
+GLEXT_API_CALL PFNEGLCOMPOSITORSETCONTEXTATTRIBUTESEXTPROC
+  glext_eglCompositorSetContextAttributesEXT;
 #define eglCompositorSetContextAttributesEXT                                  \
-  glad_eglCompositorSetContextAttributesEXT
-GLAD_API_CALL PFNEGLCOMPOSITORSETCONTEXTLISTEXTPROC
-  glad_eglCompositorSetContextListEXT;
-#define eglCompositorSetContextListEXT glad_eglCompositorSetContextListEXT
-GLAD_API_CALL PFNEGLCOMPOSITORSETSIZEEXTPROC glad_eglCompositorSetSizeEXT;
-#define eglCompositorSetSizeEXT glad_eglCompositorSetSizeEXT
-GLAD_API_CALL PFNEGLCOMPOSITORSETWINDOWATTRIBUTESEXTPROC
-  glad_eglCompositorSetWindowAttributesEXT;
+  glext_eglCompositorSetContextAttributesEXT
+GLEXT_API_CALL PFNEGLCOMPOSITORSETCONTEXTLISTEXTPROC
+  glext_eglCompositorSetContextListEXT;
+#define eglCompositorSetContextListEXT glext_eglCompositorSetContextListEXT
+GLEXT_API_CALL PFNEGLCOMPOSITORSETSIZEEXTPROC glext_eglCompositorSetSizeEXT;
+#define eglCompositorSetSizeEXT glext_eglCompositorSetSizeEXT
+GLEXT_API_CALL PFNEGLCOMPOSITORSETWINDOWATTRIBUTESEXTPROC
+  glext_eglCompositorSetWindowAttributesEXT;
 #define eglCompositorSetWindowAttributesEXT                                   \
-  glad_eglCompositorSetWindowAttributesEXT
-GLAD_API_CALL PFNEGLCOMPOSITORSETWINDOWLISTEXTPROC
-  glad_eglCompositorSetWindowListEXT;
-#define eglCompositorSetWindowListEXT glad_eglCompositorSetWindowListEXT
-GLAD_API_CALL PFNEGLCOMPOSITORSWAPPOLICYEXTPROC
-  glad_eglCompositorSwapPolicyEXT;
-#define eglCompositorSwapPolicyEXT glad_eglCompositorSwapPolicyEXT
-GLAD_API_CALL PFNEGLCOPYBUFFERSPROC glad_eglCopyBuffers;
-#define eglCopyBuffers glad_eglCopyBuffers
-GLAD_API_CALL PFNEGLCREATECONTEXTPROC glad_eglCreateContext;
-#define eglCreateContext glad_eglCreateContext
-GLAD_API_CALL PFNEGLCREATEDRMIMAGEMESAPROC glad_eglCreateDRMImageMESA;
-#define eglCreateDRMImageMESA glad_eglCreateDRMImageMESA
-GLAD_API_CALL PFNEGLCREATEFENCESYNCNVPROC glad_eglCreateFenceSyncNV;
-#define eglCreateFenceSyncNV glad_eglCreateFenceSyncNV
-GLAD_API_CALL PFNEGLCREATEIMAGEPROC glad_eglCreateImage;
-#define eglCreateImage glad_eglCreateImage
-GLAD_API_CALL PFNEGLCREATEIMAGEKHRPROC glad_eglCreateImageKHR;
-#define eglCreateImageKHR glad_eglCreateImageKHR
-GLAD_API_CALL PFNEGLCREATENATIVECLIENTBUFFERANDROIDPROC
-  glad_eglCreateNativeClientBufferANDROID;
+  glext_eglCompositorSetWindowAttributesEXT
+GLEXT_API_CALL PFNEGLCOMPOSITORSETWINDOWLISTEXTPROC
+  glext_eglCompositorSetWindowListEXT;
+#define eglCompositorSetWindowListEXT glext_eglCompositorSetWindowListEXT
+GLEXT_API_CALL PFNEGLCOMPOSITORSWAPPOLICYEXTPROC
+  glext_eglCompositorSwapPolicyEXT;
+#define eglCompositorSwapPolicyEXT glext_eglCompositorSwapPolicyEXT
+GLEXT_API_CALL PFNEGLCOPYBUFFERSPROC glext_eglCopyBuffers;
+#define eglCopyBuffers glext_eglCopyBuffers
+GLEXT_API_CALL PFNEGLCREATECONTEXTPROC glext_eglCreateContext;
+#define eglCreateContext glext_eglCreateContext
+GLEXT_API_CALL PFNEGLCREATEDRMIMAGEMESAPROC glext_eglCreateDRMImageMESA;
+#define eglCreateDRMImageMESA glext_eglCreateDRMImageMESA
+GLEXT_API_CALL PFNEGLCREATEFENCESYNCNVPROC glext_eglCreateFenceSyncNV;
+#define eglCreateFenceSyncNV glext_eglCreateFenceSyncNV
+GLEXT_API_CALL PFNEGLCREATEIMAGEPROC glext_eglCreateImage;
+#define eglCreateImage glext_eglCreateImage
+GLEXT_API_CALL PFNEGLCREATEIMAGEKHRPROC glext_eglCreateImageKHR;
+#define eglCreateImageKHR glext_eglCreateImageKHR
+GLEXT_API_CALL PFNEGLCREATENATIVECLIENTBUFFERANDROIDPROC
+  glext_eglCreateNativeClientBufferANDROID;
 #define eglCreateNativeClientBufferANDROID                                    \
-  glad_eglCreateNativeClientBufferANDROID
-GLAD_API_CALL PFNEGLCREATEPBUFFERFROMCLIENTBUFFERPROC
-  glad_eglCreatePbufferFromClientBuffer;
-#define eglCreatePbufferFromClientBuffer glad_eglCreatePbufferFromClientBuffer
-GLAD_API_CALL PFNEGLCREATEPBUFFERSURFACEPROC glad_eglCreatePbufferSurface;
-#define eglCreatePbufferSurface glad_eglCreatePbufferSurface
-GLAD_API_CALL PFNEGLCREATEPIXMAPSURFACEPROC glad_eglCreatePixmapSurface;
-#define eglCreatePixmapSurface glad_eglCreatePixmapSurface
-GLAD_API_CALL PFNEGLCREATEPIXMAPSURFACEHIPROC glad_eglCreatePixmapSurfaceHI;
-#define eglCreatePixmapSurfaceHI glad_eglCreatePixmapSurfaceHI
-GLAD_API_CALL PFNEGLCREATEPLATFORMPIXMAPSURFACEPROC
-  glad_eglCreatePlatformPixmapSurface;
-#define eglCreatePlatformPixmapSurface glad_eglCreatePlatformPixmapSurface
-GLAD_API_CALL PFNEGLCREATEPLATFORMPIXMAPSURFACEEXTPROC
-  glad_eglCreatePlatformPixmapSurfaceEXT;
+  glext_eglCreateNativeClientBufferANDROID
+GLEXT_API_CALL PFNEGLCREATEPBUFFERFROMCLIENTBUFFERPROC
+  glext_eglCreatePbufferFromClientBuffer;
+#define eglCreatePbufferFromClientBuffer glext_eglCreatePbufferFromClientBuffer
+GLEXT_API_CALL PFNEGLCREATEPBUFFERSURFACEPROC glext_eglCreatePbufferSurface;
+#define eglCreatePbufferSurface glext_eglCreatePbufferSurface
+GLEXT_API_CALL PFNEGLCREATEPIXMAPSURFACEPROC glext_eglCreatePixmapSurface;
+#define eglCreatePixmapSurface glext_eglCreatePixmapSurface
+GLEXT_API_CALL PFNEGLCREATEPIXMAPSURFACEHIPROC glext_eglCreatePixmapSurfaceHI;
+#define eglCreatePixmapSurfaceHI glext_eglCreatePixmapSurfaceHI
+GLEXT_API_CALL PFNEGLCREATEPLATFORMPIXMAPSURFACEPROC
+  glext_eglCreatePlatformPixmapSurface;
+#define eglCreatePlatformPixmapSurface glext_eglCreatePlatformPixmapSurface
+GLEXT_API_CALL PFNEGLCREATEPLATFORMPIXMAPSURFACEEXTPROC
+  glext_eglCreatePlatformPixmapSurfaceEXT;
 #define eglCreatePlatformPixmapSurfaceEXT                                     \
-  glad_eglCreatePlatformPixmapSurfaceEXT
-GLAD_API_CALL PFNEGLCREATEPLATFORMWINDOWSURFACEPROC
-  glad_eglCreatePlatformWindowSurface;
-#define eglCreatePlatformWindowSurface glad_eglCreatePlatformWindowSurface
-GLAD_API_CALL PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC
-  glad_eglCreatePlatformWindowSurfaceEXT;
+  glext_eglCreatePlatformPixmapSurfaceEXT
+GLEXT_API_CALL PFNEGLCREATEPLATFORMWINDOWSURFACEPROC
+  glext_eglCreatePlatformWindowSurface;
+#define eglCreatePlatformWindowSurface glext_eglCreatePlatformWindowSurface
+GLEXT_API_CALL PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC
+  glext_eglCreatePlatformWindowSurfaceEXT;
 #define eglCreatePlatformWindowSurfaceEXT                                     \
-  glad_eglCreatePlatformWindowSurfaceEXT
-GLAD_API_CALL PFNEGLCREATESTREAMATTRIBKHRPROC glad_eglCreateStreamAttribKHR;
-#define eglCreateStreamAttribKHR glad_eglCreateStreamAttribKHR
-GLAD_API_CALL PFNEGLCREATESTREAMFROMFILEDESCRIPTORKHRPROC
-  glad_eglCreateStreamFromFileDescriptorKHR;
+  glext_eglCreatePlatformWindowSurfaceEXT
+GLEXT_API_CALL PFNEGLCREATESTREAMATTRIBKHRPROC glext_eglCreateStreamAttribKHR;
+#define eglCreateStreamAttribKHR glext_eglCreateStreamAttribKHR
+GLEXT_API_CALL PFNEGLCREATESTREAMFROMFILEDESCRIPTORKHRPROC
+  glext_eglCreateStreamFromFileDescriptorKHR;
 #define eglCreateStreamFromFileDescriptorKHR                                  \
-  glad_eglCreateStreamFromFileDescriptorKHR
-GLAD_API_CALL PFNEGLCREATESTREAMKHRPROC glad_eglCreateStreamKHR;
-#define eglCreateStreamKHR glad_eglCreateStreamKHR
-GLAD_API_CALL PFNEGLCREATESTREAMPRODUCERSURFACEKHRPROC
-  glad_eglCreateStreamProducerSurfaceKHR;
+  glext_eglCreateStreamFromFileDescriptorKHR
+GLEXT_API_CALL PFNEGLCREATESTREAMKHRPROC glext_eglCreateStreamKHR;
+#define eglCreateStreamKHR glext_eglCreateStreamKHR
+GLEXT_API_CALL PFNEGLCREATESTREAMPRODUCERSURFACEKHRPROC
+  glext_eglCreateStreamProducerSurfaceKHR;
 #define eglCreateStreamProducerSurfaceKHR                                     \
-  glad_eglCreateStreamProducerSurfaceKHR
-GLAD_API_CALL PFNEGLCREATESTREAMSYNCNVPROC glad_eglCreateStreamSyncNV;
-#define eglCreateStreamSyncNV glad_eglCreateStreamSyncNV
-GLAD_API_CALL PFNEGLCREATESYNCPROC glad_eglCreateSync;
-#define eglCreateSync glad_eglCreateSync
-GLAD_API_CALL PFNEGLCREATESYNC64KHRPROC glad_eglCreateSync64KHR;
-#define eglCreateSync64KHR glad_eglCreateSync64KHR
-GLAD_API_CALL PFNEGLCREATESYNCKHRPROC glad_eglCreateSyncKHR;
-#define eglCreateSyncKHR glad_eglCreateSyncKHR
-GLAD_API_CALL PFNEGLCREATEWAYLANDBUFFERFROMIMAGEWLPROC
-  glad_eglCreateWaylandBufferFromImageWL;
+  glext_eglCreateStreamProducerSurfaceKHR
+GLEXT_API_CALL PFNEGLCREATESTREAMSYNCNVPROC glext_eglCreateStreamSyncNV;
+#define eglCreateStreamSyncNV glext_eglCreateStreamSyncNV
+GLEXT_API_CALL PFNEGLCREATESYNCPROC glext_eglCreateSync;
+#define eglCreateSync glext_eglCreateSync
+GLEXT_API_CALL PFNEGLCREATESYNC64KHRPROC glext_eglCreateSync64KHR;
+#define eglCreateSync64KHR glext_eglCreateSync64KHR
+GLEXT_API_CALL PFNEGLCREATESYNCKHRPROC glext_eglCreateSyncKHR;
+#define eglCreateSyncKHR glext_eglCreateSyncKHR
+GLEXT_API_CALL PFNEGLCREATEWAYLANDBUFFERFROMIMAGEWLPROC
+  glext_eglCreateWaylandBufferFromImageWL;
 #define eglCreateWaylandBufferFromImageWL                                     \
-  glad_eglCreateWaylandBufferFromImageWL
-GLAD_API_CALL PFNEGLCREATEWINDOWSURFACEPROC glad_eglCreateWindowSurface;
-#define eglCreateWindowSurface glad_eglCreateWindowSurface
-GLAD_API_CALL PFNEGLDEBUGMESSAGECONTROLKHRPROC glad_eglDebugMessageControlKHR;
-#define eglDebugMessageControlKHR glad_eglDebugMessageControlKHR
-GLAD_API_CALL PFNEGLDESTROYCONTEXTPROC glad_eglDestroyContext;
-#define eglDestroyContext glad_eglDestroyContext
-GLAD_API_CALL PFNEGLDESTROYDISPLAYEXTPROC glad_eglDestroyDisplayEXT;
-#define eglDestroyDisplayEXT glad_eglDestroyDisplayEXT
-GLAD_API_CALL PFNEGLDESTROYIMAGEPROC glad_eglDestroyImage;
-#define eglDestroyImage glad_eglDestroyImage
-GLAD_API_CALL PFNEGLDESTROYIMAGEKHRPROC glad_eglDestroyImageKHR;
-#define eglDestroyImageKHR glad_eglDestroyImageKHR
-GLAD_API_CALL PFNEGLDESTROYSTREAMKHRPROC glad_eglDestroyStreamKHR;
-#define eglDestroyStreamKHR glad_eglDestroyStreamKHR
-GLAD_API_CALL PFNEGLDESTROYSURFACEPROC glad_eglDestroySurface;
-#define eglDestroySurface glad_eglDestroySurface
-GLAD_API_CALL PFNEGLDESTROYSYNCPROC glad_eglDestroySync;
-#define eglDestroySync glad_eglDestroySync
-GLAD_API_CALL PFNEGLDESTROYSYNCKHRPROC glad_eglDestroySyncKHR;
-#define eglDestroySyncKHR glad_eglDestroySyncKHR
-GLAD_API_CALL PFNEGLDESTROYSYNCNVPROC glad_eglDestroySyncNV;
-#define eglDestroySyncNV glad_eglDestroySyncNV
-GLAD_API_CALL PFNEGLDUPNATIVEFENCEFDANDROIDPROC
-  glad_eglDupNativeFenceFDANDROID;
-#define eglDupNativeFenceFDANDROID glad_eglDupNativeFenceFDANDROID
-GLAD_API_CALL PFNEGLEXPORTDMABUFIMAGEMESAPROC glad_eglExportDMABUFImageMESA;
-#define eglExportDMABUFImageMESA glad_eglExportDMABUFImageMESA
-GLAD_API_CALL PFNEGLEXPORTDMABUFIMAGEQUERYMESAPROC
-  glad_eglExportDMABUFImageQueryMESA;
-#define eglExportDMABUFImageQueryMESA glad_eglExportDMABUFImageQueryMESA
-GLAD_API_CALL PFNEGLEXPORTDRMIMAGEMESAPROC glad_eglExportDRMImageMESA;
-#define eglExportDRMImageMESA glad_eglExportDRMImageMESA
-GLAD_API_CALL PFNEGLFENCENVPROC glad_eglFenceNV;
-#define eglFenceNV glad_eglFenceNV
-GLAD_API_CALL PFNEGLGETCOMPOSITORTIMINGANDROIDPROC
-  glad_eglGetCompositorTimingANDROID;
-#define eglGetCompositorTimingANDROID glad_eglGetCompositorTimingANDROID
-GLAD_API_CALL PFNEGLGETCOMPOSITORTIMINGSUPPORTEDANDROIDPROC
-  glad_eglGetCompositorTimingSupportedANDROID;
+  glext_eglCreateWaylandBufferFromImageWL
+GLEXT_API_CALL PFNEGLCREATEWINDOWSURFACEPROC glext_eglCreateWindowSurface;
+#define eglCreateWindowSurface glext_eglCreateWindowSurface
+GLEXT_API_CALL PFNEGLDEBUGMESSAGECONTROLKHRPROC
+  glext_eglDebugMessageControlKHR;
+#define eglDebugMessageControlKHR glext_eglDebugMessageControlKHR
+GLEXT_API_CALL PFNEGLDESTROYCONTEXTPROC glext_eglDestroyContext;
+#define eglDestroyContext glext_eglDestroyContext
+GLEXT_API_CALL PFNEGLDESTROYDISPLAYEXTPROC glext_eglDestroyDisplayEXT;
+#define eglDestroyDisplayEXT glext_eglDestroyDisplayEXT
+GLEXT_API_CALL PFNEGLDESTROYIMAGEPROC glext_eglDestroyImage;
+#define eglDestroyImage glext_eglDestroyImage
+GLEXT_API_CALL PFNEGLDESTROYIMAGEKHRPROC glext_eglDestroyImageKHR;
+#define eglDestroyImageKHR glext_eglDestroyImageKHR
+GLEXT_API_CALL PFNEGLDESTROYSTREAMKHRPROC glext_eglDestroyStreamKHR;
+#define eglDestroyStreamKHR glext_eglDestroyStreamKHR
+GLEXT_API_CALL PFNEGLDESTROYSURFACEPROC glext_eglDestroySurface;
+#define eglDestroySurface glext_eglDestroySurface
+GLEXT_API_CALL PFNEGLDESTROYSYNCPROC glext_eglDestroySync;
+#define eglDestroySync glext_eglDestroySync
+GLEXT_API_CALL PFNEGLDESTROYSYNCKHRPROC glext_eglDestroySyncKHR;
+#define eglDestroySyncKHR glext_eglDestroySyncKHR
+GLEXT_API_CALL PFNEGLDESTROYSYNCNVPROC glext_eglDestroySyncNV;
+#define eglDestroySyncNV glext_eglDestroySyncNV
+GLEXT_API_CALL PFNEGLDUPNATIVEFENCEFDANDROIDPROC
+  glext_eglDupNativeFenceFDANDROID;
+#define eglDupNativeFenceFDANDROID glext_eglDupNativeFenceFDANDROID
+GLEXT_API_CALL PFNEGLEXPORTDMABUFIMAGEMESAPROC glext_eglExportDMABUFImageMESA;
+#define eglExportDMABUFImageMESA glext_eglExportDMABUFImageMESA
+GLEXT_API_CALL PFNEGLEXPORTDMABUFIMAGEQUERYMESAPROC
+  glext_eglExportDMABUFImageQueryMESA;
+#define eglExportDMABUFImageQueryMESA glext_eglExportDMABUFImageQueryMESA
+GLEXT_API_CALL PFNEGLEXPORTDRMIMAGEMESAPROC glext_eglExportDRMImageMESA;
+#define eglExportDRMImageMESA glext_eglExportDRMImageMESA
+GLEXT_API_CALL PFNEGLFENCENVPROC glext_eglFenceNV;
+#define eglFenceNV glext_eglFenceNV
+GLEXT_API_CALL PFNEGLGETCOMPOSITORTIMINGANDROIDPROC
+  glext_eglGetCompositorTimingANDROID;
+#define eglGetCompositorTimingANDROID glext_eglGetCompositorTimingANDROID
+GLEXT_API_CALL PFNEGLGETCOMPOSITORTIMINGSUPPORTEDANDROIDPROC
+  glext_eglGetCompositorTimingSupportedANDROID;
 #define eglGetCompositorTimingSupportedANDROID                                \
-  glad_eglGetCompositorTimingSupportedANDROID
-GLAD_API_CALL PFNEGLGETCONFIGATTRIBPROC glad_eglGetConfigAttrib;
-#define eglGetConfigAttrib glad_eglGetConfigAttrib
-GLAD_API_CALL PFNEGLGETCONFIGSPROC glad_eglGetConfigs;
-#define eglGetConfigs glad_eglGetConfigs
-GLAD_API_CALL PFNEGLGETCURRENTCONTEXTPROC glad_eglGetCurrentContext;
-#define eglGetCurrentContext glad_eglGetCurrentContext
-GLAD_API_CALL PFNEGLGETCURRENTDISPLAYPROC glad_eglGetCurrentDisplay;
-#define eglGetCurrentDisplay glad_eglGetCurrentDisplay
-GLAD_API_CALL PFNEGLGETCURRENTSURFACEPROC glad_eglGetCurrentSurface;
-#define eglGetCurrentSurface glad_eglGetCurrentSurface
-GLAD_API_CALL PFNEGLGETDISPLAYPROC glad_eglGetDisplay;
-#define eglGetDisplay glad_eglGetDisplay
-GLAD_API_CALL PFNEGLGETDISPLAYDRIVERCONFIGPROC glad_eglGetDisplayDriverConfig;
-#define eglGetDisplayDriverConfig glad_eglGetDisplayDriverConfig
-GLAD_API_CALL PFNEGLGETDISPLAYDRIVERNAMEPROC glad_eglGetDisplayDriverName;
-#define eglGetDisplayDriverName glad_eglGetDisplayDriverName
-GLAD_API_CALL PFNEGLGETERRORPROC glad_eglGetError;
-#define eglGetError glad_eglGetError
-GLAD_API_CALL PFNEGLGETFRAMETIMESTAMPSUPPORTEDANDROIDPROC
-  glad_eglGetFrameTimestampSupportedANDROID;
+  glext_eglGetCompositorTimingSupportedANDROID
+GLEXT_API_CALL PFNEGLGETCONFIGATTRIBPROC glext_eglGetConfigAttrib;
+#define eglGetConfigAttrib glext_eglGetConfigAttrib
+GLEXT_API_CALL PFNEGLGETCONFIGSPROC glext_eglGetConfigs;
+#define eglGetConfigs glext_eglGetConfigs
+GLEXT_API_CALL PFNEGLGETCURRENTCONTEXTPROC glext_eglGetCurrentContext;
+#define eglGetCurrentContext glext_eglGetCurrentContext
+GLEXT_API_CALL PFNEGLGETCURRENTDISPLAYPROC glext_eglGetCurrentDisplay;
+#define eglGetCurrentDisplay glext_eglGetCurrentDisplay
+GLEXT_API_CALL PFNEGLGETCURRENTSURFACEPROC glext_eglGetCurrentSurface;
+#define eglGetCurrentSurface glext_eglGetCurrentSurface
+GLEXT_API_CALL PFNEGLGETDISPLAYPROC glext_eglGetDisplay;
+#define eglGetDisplay glext_eglGetDisplay
+GLEXT_API_CALL PFNEGLGETDISPLAYDRIVERCONFIGPROC
+  glext_eglGetDisplayDriverConfig;
+#define eglGetDisplayDriverConfig glext_eglGetDisplayDriverConfig
+GLEXT_API_CALL PFNEGLGETDISPLAYDRIVERNAMEPROC glext_eglGetDisplayDriverName;
+#define eglGetDisplayDriverName glext_eglGetDisplayDriverName
+GLEXT_API_CALL PFNEGLGETERRORPROC glext_eglGetError;
+#define eglGetError glext_eglGetError
+GLEXT_API_CALL PFNEGLGETFRAMETIMESTAMPSUPPORTEDANDROIDPROC
+  glext_eglGetFrameTimestampSupportedANDROID;
 #define eglGetFrameTimestampSupportedANDROID                                  \
-  glad_eglGetFrameTimestampSupportedANDROID
-GLAD_API_CALL PFNEGLGETFRAMETIMESTAMPSANDROIDPROC
-  glad_eglGetFrameTimestampsANDROID;
-#define eglGetFrameTimestampsANDROID glad_eglGetFrameTimestampsANDROID
-GLAD_API_CALL PFNEGLGETMSCRATEANGLEPROC glad_eglGetMscRateANGLE;
-#define eglGetMscRateANGLE glad_eglGetMscRateANGLE
-GLAD_API_CALL PFNEGLGETNATIVECLIENTBUFFERANDROIDPROC
-  glad_eglGetNativeClientBufferANDROID;
-#define eglGetNativeClientBufferANDROID glad_eglGetNativeClientBufferANDROID
-GLAD_API_CALL PFNEGLGETNEXTFRAMEIDANDROIDPROC glad_eglGetNextFrameIdANDROID;
-#define eglGetNextFrameIdANDROID glad_eglGetNextFrameIdANDROID
-GLAD_API_CALL PFNEGLGETOUTPUTLAYERSEXTPROC glad_eglGetOutputLayersEXT;
-#define eglGetOutputLayersEXT glad_eglGetOutputLayersEXT
-GLAD_API_CALL PFNEGLGETOUTPUTPORTSEXTPROC glad_eglGetOutputPortsEXT;
-#define eglGetOutputPortsEXT glad_eglGetOutputPortsEXT
-GLAD_API_CALL PFNEGLGETPLATFORMDISPLAYPROC glad_eglGetPlatformDisplay;
-#define eglGetPlatformDisplay glad_eglGetPlatformDisplay
-GLAD_API_CALL PFNEGLGETPLATFORMDISPLAYEXTPROC glad_eglGetPlatformDisplayEXT;
-#define eglGetPlatformDisplayEXT glad_eglGetPlatformDisplayEXT
-GLAD_API_CALL PFNEGLGETPROCADDRESSPROC glad_eglGetProcAddress;
-#define eglGetProcAddress glad_eglGetProcAddress
-GLAD_API_CALL PFNEGLGETSTREAMFILEDESCRIPTORKHRPROC
-  glad_eglGetStreamFileDescriptorKHR;
-#define eglGetStreamFileDescriptorKHR glad_eglGetStreamFileDescriptorKHR
-GLAD_API_CALL PFNEGLGETSYNCATTRIBPROC glad_eglGetSyncAttrib;
-#define eglGetSyncAttrib glad_eglGetSyncAttrib
-GLAD_API_CALL PFNEGLGETSYNCATTRIBKHRPROC glad_eglGetSyncAttribKHR;
-#define eglGetSyncAttribKHR glad_eglGetSyncAttribKHR
-GLAD_API_CALL PFNEGLGETSYNCATTRIBNVPROC glad_eglGetSyncAttribNV;
-#define eglGetSyncAttribNV glad_eglGetSyncAttribNV
-GLAD_API_CALL PFNEGLGETSYSTEMTIMEFREQUENCYNVPROC
-  glad_eglGetSystemTimeFrequencyNV;
-#define eglGetSystemTimeFrequencyNV glad_eglGetSystemTimeFrequencyNV
-GLAD_API_CALL PFNEGLGETSYSTEMTIMENVPROC glad_eglGetSystemTimeNV;
-#define eglGetSystemTimeNV glad_eglGetSystemTimeNV
-GLAD_API_CALL PFNEGLINITIALIZEPROC glad_eglInitialize;
-#define eglInitialize glad_eglInitialize
-GLAD_API_CALL PFNEGLLABELOBJECTKHRPROC glad_eglLabelObjectKHR;
-#define eglLabelObjectKHR glad_eglLabelObjectKHR
-GLAD_API_CALL PFNEGLLOCKSURFACEKHRPROC glad_eglLockSurfaceKHR;
-#define eglLockSurfaceKHR glad_eglLockSurfaceKHR
-GLAD_API_CALL PFNEGLMAKECURRENTPROC glad_eglMakeCurrent;
-#define eglMakeCurrent glad_eglMakeCurrent
-GLAD_API_CALL PFNEGLOUTPUTLAYERATTRIBEXTPROC glad_eglOutputLayerAttribEXT;
-#define eglOutputLayerAttribEXT glad_eglOutputLayerAttribEXT
-GLAD_API_CALL PFNEGLOUTPUTPORTATTRIBEXTPROC glad_eglOutputPortAttribEXT;
-#define eglOutputPortAttribEXT glad_eglOutputPortAttribEXT
-GLAD_API_CALL PFNEGLPOSTSUBBUFFERNVPROC glad_eglPostSubBufferNV;
-#define eglPostSubBufferNV glad_eglPostSubBufferNV
-GLAD_API_CALL PFNEGLPRESENTATIONTIMEANDROIDPROC
-  glad_eglPresentationTimeANDROID;
-#define eglPresentationTimeANDROID glad_eglPresentationTimeANDROID
-GLAD_API_CALL PFNEGLQUERYAPIPROC glad_eglQueryAPI;
-#define eglQueryAPI glad_eglQueryAPI
-GLAD_API_CALL PFNEGLQUERYCONTEXTPROC glad_eglQueryContext;
-#define eglQueryContext glad_eglQueryContext
-GLAD_API_CALL PFNEGLQUERYDEBUGKHRPROC glad_eglQueryDebugKHR;
-#define eglQueryDebugKHR glad_eglQueryDebugKHR
-GLAD_API_CALL PFNEGLQUERYDEVICEATTRIBEXTPROC glad_eglQueryDeviceAttribEXT;
-#define eglQueryDeviceAttribEXT glad_eglQueryDeviceAttribEXT
-GLAD_API_CALL PFNEGLQUERYDEVICEBINARYEXTPROC glad_eglQueryDeviceBinaryEXT;
-#define eglQueryDeviceBinaryEXT glad_eglQueryDeviceBinaryEXT
-GLAD_API_CALL PFNEGLQUERYDEVICESTRINGEXTPROC glad_eglQueryDeviceStringEXT;
-#define eglQueryDeviceStringEXT glad_eglQueryDeviceStringEXT
-GLAD_API_CALL PFNEGLQUERYDEVICESEXTPROC glad_eglQueryDevicesEXT;
-#define eglQueryDevicesEXT glad_eglQueryDevicesEXT
-GLAD_API_CALL PFNEGLQUERYDISPLAYATTRIBEXTPROC glad_eglQueryDisplayAttribEXT;
-#define eglQueryDisplayAttribEXT glad_eglQueryDisplayAttribEXT
-GLAD_API_CALL PFNEGLQUERYDISPLAYATTRIBKHRPROC glad_eglQueryDisplayAttribKHR;
-#define eglQueryDisplayAttribKHR glad_eglQueryDisplayAttribKHR
-GLAD_API_CALL PFNEGLQUERYDISPLAYATTRIBNVPROC glad_eglQueryDisplayAttribNV;
-#define eglQueryDisplayAttribNV glad_eglQueryDisplayAttribNV
-GLAD_API_CALL PFNEGLQUERYDMABUFFORMATSEXTPROC glad_eglQueryDmaBufFormatsEXT;
-#define eglQueryDmaBufFormatsEXT glad_eglQueryDmaBufFormatsEXT
-GLAD_API_CALL PFNEGLQUERYDMABUFMODIFIERSEXTPROC
-  glad_eglQueryDmaBufModifiersEXT;
-#define eglQueryDmaBufModifiersEXT glad_eglQueryDmaBufModifiersEXT
-GLAD_API_CALL PFNEGLQUERYNATIVEDISPLAYNVPROC glad_eglQueryNativeDisplayNV;
-#define eglQueryNativeDisplayNV glad_eglQueryNativeDisplayNV
-GLAD_API_CALL PFNEGLQUERYNATIVEPIXMAPNVPROC glad_eglQueryNativePixmapNV;
-#define eglQueryNativePixmapNV glad_eglQueryNativePixmapNV
-GLAD_API_CALL PFNEGLQUERYNATIVEWINDOWNVPROC glad_eglQueryNativeWindowNV;
-#define eglQueryNativeWindowNV glad_eglQueryNativeWindowNV
-GLAD_API_CALL PFNEGLQUERYOUTPUTLAYERATTRIBEXTPROC
-  glad_eglQueryOutputLayerAttribEXT;
-#define eglQueryOutputLayerAttribEXT glad_eglQueryOutputLayerAttribEXT
-GLAD_API_CALL PFNEGLQUERYOUTPUTLAYERSTRINGEXTPROC
-  glad_eglQueryOutputLayerStringEXT;
-#define eglQueryOutputLayerStringEXT glad_eglQueryOutputLayerStringEXT
-GLAD_API_CALL PFNEGLQUERYOUTPUTPORTATTRIBEXTPROC
-  glad_eglQueryOutputPortAttribEXT;
-#define eglQueryOutputPortAttribEXT glad_eglQueryOutputPortAttribEXT
-GLAD_API_CALL PFNEGLQUERYOUTPUTPORTSTRINGEXTPROC
-  glad_eglQueryOutputPortStringEXT;
-#define eglQueryOutputPortStringEXT glad_eglQueryOutputPortStringEXT
-GLAD_API_CALL PFNEGLQUERYSTREAMATTRIBKHRPROC glad_eglQueryStreamAttribKHR;
-#define eglQueryStreamAttribKHR glad_eglQueryStreamAttribKHR
-GLAD_API_CALL PFNEGLQUERYSTREAMCONSUMEREVENTNVPROC
-  glad_eglQueryStreamConsumerEventNV;
-#define eglQueryStreamConsumerEventNV glad_eglQueryStreamConsumerEventNV
-GLAD_API_CALL PFNEGLQUERYSTREAMKHRPROC glad_eglQueryStreamKHR;
-#define eglQueryStreamKHR glad_eglQueryStreamKHR
-GLAD_API_CALL PFNEGLQUERYSTREAMMETADATANVPROC glad_eglQueryStreamMetadataNV;
-#define eglQueryStreamMetadataNV glad_eglQueryStreamMetadataNV
-GLAD_API_CALL PFNEGLQUERYSTREAMTIMEKHRPROC glad_eglQueryStreamTimeKHR;
-#define eglQueryStreamTimeKHR glad_eglQueryStreamTimeKHR
-GLAD_API_CALL PFNEGLQUERYSTREAMU64KHRPROC glad_eglQueryStreamu64KHR;
-#define eglQueryStreamu64KHR glad_eglQueryStreamu64KHR
-GLAD_API_CALL PFNEGLQUERYSTRINGPROC glad_eglQueryString;
-#define eglQueryString glad_eglQueryString
-GLAD_API_CALL PFNEGLQUERYSUPPORTEDCOMPRESSIONRATESEXTPROC
-  glad_eglQuerySupportedCompressionRatesEXT;
+  glext_eglGetFrameTimestampSupportedANDROID
+GLEXT_API_CALL PFNEGLGETFRAMETIMESTAMPSANDROIDPROC
+  glext_eglGetFrameTimestampsANDROID;
+#define eglGetFrameTimestampsANDROID glext_eglGetFrameTimestampsANDROID
+GLEXT_API_CALL PFNEGLGETMSCRATEANGLEPROC glext_eglGetMscRateANGLE;
+#define eglGetMscRateANGLE glext_eglGetMscRateANGLE
+GLEXT_API_CALL PFNEGLGETNATIVECLIENTBUFFERANDROIDPROC
+  glext_eglGetNativeClientBufferANDROID;
+#define eglGetNativeClientBufferANDROID glext_eglGetNativeClientBufferANDROID
+GLEXT_API_CALL PFNEGLGETNEXTFRAMEIDANDROIDPROC glext_eglGetNextFrameIdANDROID;
+#define eglGetNextFrameIdANDROID glext_eglGetNextFrameIdANDROID
+GLEXT_API_CALL PFNEGLGETOUTPUTLAYERSEXTPROC glext_eglGetOutputLayersEXT;
+#define eglGetOutputLayersEXT glext_eglGetOutputLayersEXT
+GLEXT_API_CALL PFNEGLGETOUTPUTPORTSEXTPROC glext_eglGetOutputPortsEXT;
+#define eglGetOutputPortsEXT glext_eglGetOutputPortsEXT
+GLEXT_API_CALL PFNEGLGETPLATFORMDISPLAYPROC glext_eglGetPlatformDisplay;
+#define eglGetPlatformDisplay glext_eglGetPlatformDisplay
+GLEXT_API_CALL PFNEGLGETPLATFORMDISPLAYEXTPROC glext_eglGetPlatformDisplayEXT;
+#define eglGetPlatformDisplayEXT glext_eglGetPlatformDisplayEXT
+GLEXT_API_CALL PFNEGLGETPROCADDRESSPROC glext_eglGetProcAddress;
+#define eglGetProcAddress glext_eglGetProcAddress
+GLEXT_API_CALL PFNEGLGETSTREAMFILEDESCRIPTORKHRPROC
+  glext_eglGetStreamFileDescriptorKHR;
+#define eglGetStreamFileDescriptorKHR glext_eglGetStreamFileDescriptorKHR
+GLEXT_API_CALL PFNEGLGETSYNCATTRIBPROC glext_eglGetSyncAttrib;
+#define eglGetSyncAttrib glext_eglGetSyncAttrib
+GLEXT_API_CALL PFNEGLGETSYNCATTRIBKHRPROC glext_eglGetSyncAttribKHR;
+#define eglGetSyncAttribKHR glext_eglGetSyncAttribKHR
+GLEXT_API_CALL PFNEGLGETSYNCATTRIBNVPROC glext_eglGetSyncAttribNV;
+#define eglGetSyncAttribNV glext_eglGetSyncAttribNV
+GLEXT_API_CALL PFNEGLGETSYSTEMTIMEFREQUENCYNVPROC
+  glext_eglGetSystemTimeFrequencyNV;
+#define eglGetSystemTimeFrequencyNV glext_eglGetSystemTimeFrequencyNV
+GLEXT_API_CALL PFNEGLGETSYSTEMTIMENVPROC glext_eglGetSystemTimeNV;
+#define eglGetSystemTimeNV glext_eglGetSystemTimeNV
+GLEXT_API_CALL PFNEGLINITIALIZEPROC glext_eglInitialize;
+#define eglInitialize glext_eglInitialize
+GLEXT_API_CALL PFNEGLLABELOBJECTKHRPROC glext_eglLabelObjectKHR;
+#define eglLabelObjectKHR glext_eglLabelObjectKHR
+GLEXT_API_CALL PFNEGLLOCKSURFACEKHRPROC glext_eglLockSurfaceKHR;
+#define eglLockSurfaceKHR glext_eglLockSurfaceKHR
+GLEXT_API_CALL PFNEGLMAKECURRENTPROC glext_eglMakeCurrent;
+#define eglMakeCurrent glext_eglMakeCurrent
+GLEXT_API_CALL PFNEGLOUTPUTLAYERATTRIBEXTPROC glext_eglOutputLayerAttribEXT;
+#define eglOutputLayerAttribEXT glext_eglOutputLayerAttribEXT
+GLEXT_API_CALL PFNEGLOUTPUTPORTATTRIBEXTPROC glext_eglOutputPortAttribEXT;
+#define eglOutputPortAttribEXT glext_eglOutputPortAttribEXT
+GLEXT_API_CALL PFNEGLPOSTSUBBUFFERNVPROC glext_eglPostSubBufferNV;
+#define eglPostSubBufferNV glext_eglPostSubBufferNV
+GLEXT_API_CALL PFNEGLPRESENTATIONTIMEANDROIDPROC
+  glext_eglPresentationTimeANDROID;
+#define eglPresentationTimeANDROID glext_eglPresentationTimeANDROID
+GLEXT_API_CALL PFNEGLQUERYAPIPROC glext_eglQueryAPI;
+#define eglQueryAPI glext_eglQueryAPI
+GLEXT_API_CALL PFNEGLQUERYCONTEXTPROC glext_eglQueryContext;
+#define eglQueryContext glext_eglQueryContext
+GLEXT_API_CALL PFNEGLQUERYDEBUGKHRPROC glext_eglQueryDebugKHR;
+#define eglQueryDebugKHR glext_eglQueryDebugKHR
+GLEXT_API_CALL PFNEGLQUERYDEVICEATTRIBEXTPROC glext_eglQueryDeviceAttribEXT;
+#define eglQueryDeviceAttribEXT glext_eglQueryDeviceAttribEXT
+GLEXT_API_CALL PFNEGLQUERYDEVICEBINARYEXTPROC glext_eglQueryDeviceBinaryEXT;
+#define eglQueryDeviceBinaryEXT glext_eglQueryDeviceBinaryEXT
+GLEXT_API_CALL PFNEGLQUERYDEVICESTRINGEXTPROC glext_eglQueryDeviceStringEXT;
+#define eglQueryDeviceStringEXT glext_eglQueryDeviceStringEXT
+GLEXT_API_CALL PFNEGLQUERYDEVICESEXTPROC glext_eglQueryDevicesEXT;
+#define eglQueryDevicesEXT glext_eglQueryDevicesEXT
+GLEXT_API_CALL PFNEGLQUERYDISPLAYATTRIBEXTPROC glext_eglQueryDisplayAttribEXT;
+#define eglQueryDisplayAttribEXT glext_eglQueryDisplayAttribEXT
+GLEXT_API_CALL PFNEGLQUERYDISPLAYATTRIBKHRPROC glext_eglQueryDisplayAttribKHR;
+#define eglQueryDisplayAttribKHR glext_eglQueryDisplayAttribKHR
+GLEXT_API_CALL PFNEGLQUERYDISPLAYATTRIBNVPROC glext_eglQueryDisplayAttribNV;
+#define eglQueryDisplayAttribNV glext_eglQueryDisplayAttribNV
+GLEXT_API_CALL PFNEGLQUERYDMABUFFORMATSEXTPROC glext_eglQueryDmaBufFormatsEXT;
+#define eglQueryDmaBufFormatsEXT glext_eglQueryDmaBufFormatsEXT
+GLEXT_API_CALL PFNEGLQUERYDMABUFMODIFIERSEXTPROC
+  glext_eglQueryDmaBufModifiersEXT;
+#define eglQueryDmaBufModifiersEXT glext_eglQueryDmaBufModifiersEXT
+GLEXT_API_CALL PFNEGLQUERYNATIVEDISPLAYNVPROC glext_eglQueryNativeDisplayNV;
+#define eglQueryNativeDisplayNV glext_eglQueryNativeDisplayNV
+GLEXT_API_CALL PFNEGLQUERYNATIVEPIXMAPNVPROC glext_eglQueryNativePixmapNV;
+#define eglQueryNativePixmapNV glext_eglQueryNativePixmapNV
+GLEXT_API_CALL PFNEGLQUERYNATIVEWINDOWNVPROC glext_eglQueryNativeWindowNV;
+#define eglQueryNativeWindowNV glext_eglQueryNativeWindowNV
+GLEXT_API_CALL PFNEGLQUERYOUTPUTLAYERATTRIBEXTPROC
+  glext_eglQueryOutputLayerAttribEXT;
+#define eglQueryOutputLayerAttribEXT glext_eglQueryOutputLayerAttribEXT
+GLEXT_API_CALL PFNEGLQUERYOUTPUTLAYERSTRINGEXTPROC
+  glext_eglQueryOutputLayerStringEXT;
+#define eglQueryOutputLayerStringEXT glext_eglQueryOutputLayerStringEXT
+GLEXT_API_CALL PFNEGLQUERYOUTPUTPORTATTRIBEXTPROC
+  glext_eglQueryOutputPortAttribEXT;
+#define eglQueryOutputPortAttribEXT glext_eglQueryOutputPortAttribEXT
+GLEXT_API_CALL PFNEGLQUERYOUTPUTPORTSTRINGEXTPROC
+  glext_eglQueryOutputPortStringEXT;
+#define eglQueryOutputPortStringEXT glext_eglQueryOutputPortStringEXT
+GLEXT_API_CALL PFNEGLQUERYSTREAMATTRIBKHRPROC glext_eglQueryStreamAttribKHR;
+#define eglQueryStreamAttribKHR glext_eglQueryStreamAttribKHR
+GLEXT_API_CALL PFNEGLQUERYSTREAMCONSUMEREVENTNVPROC
+  glext_eglQueryStreamConsumerEventNV;
+#define eglQueryStreamConsumerEventNV glext_eglQueryStreamConsumerEventNV
+GLEXT_API_CALL PFNEGLQUERYSTREAMKHRPROC glext_eglQueryStreamKHR;
+#define eglQueryStreamKHR glext_eglQueryStreamKHR
+GLEXT_API_CALL PFNEGLQUERYSTREAMMETADATANVPROC glext_eglQueryStreamMetadataNV;
+#define eglQueryStreamMetadataNV glext_eglQueryStreamMetadataNV
+GLEXT_API_CALL PFNEGLQUERYSTREAMTIMEKHRPROC glext_eglQueryStreamTimeKHR;
+#define eglQueryStreamTimeKHR glext_eglQueryStreamTimeKHR
+GLEXT_API_CALL PFNEGLQUERYSTREAMU64KHRPROC glext_eglQueryStreamu64KHR;
+#define eglQueryStreamu64KHR glext_eglQueryStreamu64KHR
+GLEXT_API_CALL PFNEGLQUERYSTRINGPROC glext_eglQueryString;
+#define eglQueryString glext_eglQueryString
+GLEXT_API_CALL PFNEGLQUERYSUPPORTEDCOMPRESSIONRATESEXTPROC
+  glext_eglQuerySupportedCompressionRatesEXT;
 #define eglQuerySupportedCompressionRatesEXT                                  \
-  glad_eglQuerySupportedCompressionRatesEXT
-GLAD_API_CALL PFNEGLQUERYSURFACEPROC glad_eglQuerySurface;
-#define eglQuerySurface glad_eglQuerySurface
-GLAD_API_CALL PFNEGLQUERYSURFACE64KHRPROC glad_eglQuerySurface64KHR;
-#define eglQuerySurface64KHR glad_eglQuerySurface64KHR
-GLAD_API_CALL PFNEGLQUERYSURFACEPOINTERANGLEPROC
-  glad_eglQuerySurfacePointerANGLE;
-#define eglQuerySurfacePointerANGLE glad_eglQuerySurfacePointerANGLE
-GLAD_API_CALL PFNEGLQUERYWAYLANDBUFFERWLPROC glad_eglQueryWaylandBufferWL;
-#define eglQueryWaylandBufferWL glad_eglQueryWaylandBufferWL
-GLAD_API_CALL PFNEGLRELEASETEXIMAGEPROC glad_eglReleaseTexImage;
-#define eglReleaseTexImage glad_eglReleaseTexImage
-GLAD_API_CALL PFNEGLRELEASETHREADPROC glad_eglReleaseThread;
-#define eglReleaseThread glad_eglReleaseThread
-GLAD_API_CALL PFNEGLRESETSTREAMNVPROC glad_eglResetStreamNV;
-#define eglResetStreamNV glad_eglResetStreamNV
-GLAD_API_CALL PFNEGLSETBLOBCACHEFUNCSANDROIDPROC
-  glad_eglSetBlobCacheFuncsANDROID;
-#define eglSetBlobCacheFuncsANDROID glad_eglSetBlobCacheFuncsANDROID
-GLAD_API_CALL PFNEGLSETDAMAGEREGIONKHRPROC glad_eglSetDamageRegionKHR;
-#define eglSetDamageRegionKHR glad_eglSetDamageRegionKHR
-GLAD_API_CALL PFNEGLSETSTREAMATTRIBKHRPROC glad_eglSetStreamAttribKHR;
-#define eglSetStreamAttribKHR glad_eglSetStreamAttribKHR
-GLAD_API_CALL PFNEGLSETSTREAMMETADATANVPROC glad_eglSetStreamMetadataNV;
-#define eglSetStreamMetadataNV glad_eglSetStreamMetadataNV
-GLAD_API_CALL PFNEGLSIGNALSYNCKHRPROC glad_eglSignalSyncKHR;
-#define eglSignalSyncKHR glad_eglSignalSyncKHR
-GLAD_API_CALL PFNEGLSIGNALSYNCNVPROC glad_eglSignalSyncNV;
-#define eglSignalSyncNV glad_eglSignalSyncNV
-GLAD_API_CALL PFNEGLSTREAMACQUIREIMAGENVPROC glad_eglStreamAcquireImageNV;
-#define eglStreamAcquireImageNV glad_eglStreamAcquireImageNV
-GLAD_API_CALL PFNEGLSTREAMATTRIBKHRPROC glad_eglStreamAttribKHR;
-#define eglStreamAttribKHR glad_eglStreamAttribKHR
-GLAD_API_CALL PFNEGLSTREAMCONSUMERACQUIREATTRIBKHRPROC
-  glad_eglStreamConsumerAcquireAttribKHR;
+  glext_eglQuerySupportedCompressionRatesEXT
+GLEXT_API_CALL PFNEGLQUERYSURFACEPROC glext_eglQuerySurface;
+#define eglQuerySurface glext_eglQuerySurface
+GLEXT_API_CALL PFNEGLQUERYSURFACE64KHRPROC glext_eglQuerySurface64KHR;
+#define eglQuerySurface64KHR glext_eglQuerySurface64KHR
+GLEXT_API_CALL PFNEGLQUERYSURFACEPOINTERANGLEPROC
+  glext_eglQuerySurfacePointerANGLE;
+#define eglQuerySurfacePointerANGLE glext_eglQuerySurfacePointerANGLE
+GLEXT_API_CALL PFNEGLQUERYWAYLANDBUFFERWLPROC glext_eglQueryWaylandBufferWL;
+#define eglQueryWaylandBufferWL glext_eglQueryWaylandBufferWL
+GLEXT_API_CALL PFNEGLRELEASETEXIMAGEPROC glext_eglReleaseTexImage;
+#define eglReleaseTexImage glext_eglReleaseTexImage
+GLEXT_API_CALL PFNEGLRELEASETHREADPROC glext_eglReleaseThread;
+#define eglReleaseThread glext_eglReleaseThread
+GLEXT_API_CALL PFNEGLRESETSTREAMNVPROC glext_eglResetStreamNV;
+#define eglResetStreamNV glext_eglResetStreamNV
+GLEXT_API_CALL PFNEGLSETBLOBCACHEFUNCSANDROIDPROC
+  glext_eglSetBlobCacheFuncsANDROID;
+#define eglSetBlobCacheFuncsANDROID glext_eglSetBlobCacheFuncsANDROID
+GLEXT_API_CALL PFNEGLSETDAMAGEREGIONKHRPROC glext_eglSetDamageRegionKHR;
+#define eglSetDamageRegionKHR glext_eglSetDamageRegionKHR
+GLEXT_API_CALL PFNEGLSETSTREAMATTRIBKHRPROC glext_eglSetStreamAttribKHR;
+#define eglSetStreamAttribKHR glext_eglSetStreamAttribKHR
+GLEXT_API_CALL PFNEGLSETSTREAMMETADATANVPROC glext_eglSetStreamMetadataNV;
+#define eglSetStreamMetadataNV glext_eglSetStreamMetadataNV
+GLEXT_API_CALL PFNEGLSIGNALSYNCKHRPROC glext_eglSignalSyncKHR;
+#define eglSignalSyncKHR glext_eglSignalSyncKHR
+GLEXT_API_CALL PFNEGLSIGNALSYNCNVPROC glext_eglSignalSyncNV;
+#define eglSignalSyncNV glext_eglSignalSyncNV
+GLEXT_API_CALL PFNEGLSTREAMACQUIREIMAGENVPROC glext_eglStreamAcquireImageNV;
+#define eglStreamAcquireImageNV glext_eglStreamAcquireImageNV
+GLEXT_API_CALL PFNEGLSTREAMATTRIBKHRPROC glext_eglStreamAttribKHR;
+#define eglStreamAttribKHR glext_eglStreamAttribKHR
+GLEXT_API_CALL PFNEGLSTREAMCONSUMERACQUIREATTRIBKHRPROC
+  glext_eglStreamConsumerAcquireAttribKHR;
 #define eglStreamConsumerAcquireAttribKHR                                     \
-  glad_eglStreamConsumerAcquireAttribKHR
-GLAD_API_CALL PFNEGLSTREAMCONSUMERACQUIREKHRPROC
-  glad_eglStreamConsumerAcquireKHR;
-#define eglStreamConsumerAcquireKHR glad_eglStreamConsumerAcquireKHR
-GLAD_API_CALL PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALATTRIBSNVPROC
-  glad_eglStreamConsumerGLTextureExternalAttribsNV;
+  glext_eglStreamConsumerAcquireAttribKHR
+GLEXT_API_CALL PFNEGLSTREAMCONSUMERACQUIREKHRPROC
+  glext_eglStreamConsumerAcquireKHR;
+#define eglStreamConsumerAcquireKHR glext_eglStreamConsumerAcquireKHR
+GLEXT_API_CALL PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALATTRIBSNVPROC
+  glext_eglStreamConsumerGLTextureExternalAttribsNV;
 #define eglStreamConsumerGLTextureExternalAttribsNV                           \
-  glad_eglStreamConsumerGLTextureExternalAttribsNV
-GLAD_API_CALL PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALKHRPROC
-  glad_eglStreamConsumerGLTextureExternalKHR;
+  glext_eglStreamConsumerGLTextureExternalAttribsNV
+GLEXT_API_CALL PFNEGLSTREAMCONSUMERGLTEXTUREEXTERNALKHRPROC
+  glext_eglStreamConsumerGLTextureExternalKHR;
 #define eglStreamConsumerGLTextureExternalKHR                                 \
-  glad_eglStreamConsumerGLTextureExternalKHR
-GLAD_API_CALL PFNEGLSTREAMCONSUMEROUTPUTEXTPROC
-  glad_eglStreamConsumerOutputEXT;
-#define eglStreamConsumerOutputEXT glad_eglStreamConsumerOutputEXT
-GLAD_API_CALL PFNEGLSTREAMCONSUMERRELEASEATTRIBKHRPROC
-  glad_eglStreamConsumerReleaseAttribKHR;
+  glext_eglStreamConsumerGLTextureExternalKHR
+GLEXT_API_CALL PFNEGLSTREAMCONSUMEROUTPUTEXTPROC
+  glext_eglStreamConsumerOutputEXT;
+#define eglStreamConsumerOutputEXT glext_eglStreamConsumerOutputEXT
+GLEXT_API_CALL PFNEGLSTREAMCONSUMERRELEASEATTRIBKHRPROC
+  glext_eglStreamConsumerReleaseAttribKHR;
 #define eglStreamConsumerReleaseAttribKHR                                     \
-  glad_eglStreamConsumerReleaseAttribKHR
-GLAD_API_CALL PFNEGLSTREAMCONSUMERRELEASEKHRPROC
-  glad_eglStreamConsumerReleaseKHR;
-#define eglStreamConsumerReleaseKHR glad_eglStreamConsumerReleaseKHR
-GLAD_API_CALL PFNEGLSTREAMFLUSHNVPROC glad_eglStreamFlushNV;
-#define eglStreamFlushNV glad_eglStreamFlushNV
-GLAD_API_CALL PFNEGLSTREAMIMAGECONSUMERCONNECTNVPROC
-  glad_eglStreamImageConsumerConnectNV;
-#define eglStreamImageConsumerConnectNV glad_eglStreamImageConsumerConnectNV
-GLAD_API_CALL PFNEGLSTREAMRELEASEIMAGENVPROC glad_eglStreamReleaseImageNV;
-#define eglStreamReleaseImageNV glad_eglStreamReleaseImageNV
-GLAD_API_CALL PFNEGLSURFACEATTRIBPROC glad_eglSurfaceAttrib;
-#define eglSurfaceAttrib glad_eglSurfaceAttrib
-GLAD_API_CALL PFNEGLSWAPBUFFERSPROC glad_eglSwapBuffers;
-#define eglSwapBuffers glad_eglSwapBuffers
-GLAD_API_CALL PFNEGLSWAPBUFFERSREGION2NOKPROC glad_eglSwapBuffersRegion2NOK;
-#define eglSwapBuffersRegion2NOK glad_eglSwapBuffersRegion2NOK
-GLAD_API_CALL PFNEGLSWAPBUFFERSREGIONNOKPROC glad_eglSwapBuffersRegionNOK;
-#define eglSwapBuffersRegionNOK glad_eglSwapBuffersRegionNOK
-GLAD_API_CALL PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC
-  glad_eglSwapBuffersWithDamageEXT;
-#define eglSwapBuffersWithDamageEXT glad_eglSwapBuffersWithDamageEXT
-GLAD_API_CALL PFNEGLSWAPBUFFERSWITHDAMAGEKHRPROC
-  glad_eglSwapBuffersWithDamageKHR;
-#define eglSwapBuffersWithDamageKHR glad_eglSwapBuffersWithDamageKHR
-GLAD_API_CALL PFNEGLSWAPINTERVALPROC glad_eglSwapInterval;
-#define eglSwapInterval glad_eglSwapInterval
-GLAD_API_CALL PFNEGLTERMINATEPROC glad_eglTerminate;
-#define eglTerminate glad_eglTerminate
-GLAD_API_CALL PFNEGLUNBINDWAYLANDDISPLAYWLPROC glad_eglUnbindWaylandDisplayWL;
-#define eglUnbindWaylandDisplayWL glad_eglUnbindWaylandDisplayWL
-GLAD_API_CALL PFNEGLUNLOCKSURFACEKHRPROC glad_eglUnlockSurfaceKHR;
-#define eglUnlockSurfaceKHR glad_eglUnlockSurfaceKHR
-GLAD_API_CALL PFNEGLUNSIGNALSYNCEXTPROC glad_eglUnsignalSyncEXT;
-#define eglUnsignalSyncEXT glad_eglUnsignalSyncEXT
-GLAD_API_CALL PFNEGLWAITCLIENTPROC glad_eglWaitClient;
-#define eglWaitClient glad_eglWaitClient
-GLAD_API_CALL PFNEGLWAITGLPROC glad_eglWaitGL;
-#define eglWaitGL glad_eglWaitGL
-GLAD_API_CALL PFNEGLWAITNATIVEPROC glad_eglWaitNative;
-#define eglWaitNative glad_eglWaitNative
-GLAD_API_CALL PFNEGLWAITSYNCPROC glad_eglWaitSync;
-#define eglWaitSync glad_eglWaitSync
-GLAD_API_CALL PFNEGLWAITSYNCKHRPROC glad_eglWaitSyncKHR;
-#define eglWaitSyncKHR glad_eglWaitSyncKHR
+  glext_eglStreamConsumerReleaseAttribKHR
+GLEXT_API_CALL PFNEGLSTREAMCONSUMERRELEASEKHRPROC
+  glext_eglStreamConsumerReleaseKHR;
+#define eglStreamConsumerReleaseKHR glext_eglStreamConsumerReleaseKHR
+GLEXT_API_CALL PFNEGLSTREAMFLUSHNVPROC glext_eglStreamFlushNV;
+#define eglStreamFlushNV glext_eglStreamFlushNV
+GLEXT_API_CALL PFNEGLSTREAMIMAGECONSUMERCONNECTNVPROC
+  glext_eglStreamImageConsumerConnectNV;
+#define eglStreamImageConsumerConnectNV glext_eglStreamImageConsumerConnectNV
+GLEXT_API_CALL PFNEGLSTREAMRELEASEIMAGENVPROC glext_eglStreamReleaseImageNV;
+#define eglStreamReleaseImageNV glext_eglStreamReleaseImageNV
+GLEXT_API_CALL PFNEGLSURFACEATTRIBPROC glext_eglSurfaceAttrib;
+#define eglSurfaceAttrib glext_eglSurfaceAttrib
+GLEXT_API_CALL PFNEGLSWAPBUFFERSPROC glext_eglSwapBuffers;
+#define eglSwapBuffers glext_eglSwapBuffers
+GLEXT_API_CALL PFNEGLSWAPBUFFERSREGION2NOKPROC glext_eglSwapBuffersRegion2NOK;
+#define eglSwapBuffersRegion2NOK glext_eglSwapBuffersRegion2NOK
+GLEXT_API_CALL PFNEGLSWAPBUFFERSREGIONNOKPROC glext_eglSwapBuffersRegionNOK;
+#define eglSwapBuffersRegionNOK glext_eglSwapBuffersRegionNOK
+GLEXT_API_CALL PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC
+  glext_eglSwapBuffersWithDamageEXT;
+#define eglSwapBuffersWithDamageEXT glext_eglSwapBuffersWithDamageEXT
+GLEXT_API_CALL PFNEGLSWAPBUFFERSWITHDAMAGEKHRPROC
+  glext_eglSwapBuffersWithDamageKHR;
+#define eglSwapBuffersWithDamageKHR glext_eglSwapBuffersWithDamageKHR
+GLEXT_API_CALL PFNEGLSWAPINTERVALPROC glext_eglSwapInterval;
+#define eglSwapInterval glext_eglSwapInterval
+GLEXT_API_CALL PFNEGLTERMINATEPROC glext_eglTerminate;
+#define eglTerminate glext_eglTerminate
+GLEXT_API_CALL PFNEGLUNBINDWAYLANDDISPLAYWLPROC
+  glext_eglUnbindWaylandDisplayWL;
+#define eglUnbindWaylandDisplayWL glext_eglUnbindWaylandDisplayWL
+GLEXT_API_CALL PFNEGLUNLOCKSURFACEKHRPROC glext_eglUnlockSurfaceKHR;
+#define eglUnlockSurfaceKHR glext_eglUnlockSurfaceKHR
+GLEXT_API_CALL PFNEGLUNSIGNALSYNCEXTPROC glext_eglUnsignalSyncEXT;
+#define eglUnsignalSyncEXT glext_eglUnsignalSyncEXT
+GLEXT_API_CALL PFNEGLWAITCLIENTPROC glext_eglWaitClient;
+#define eglWaitClient glext_eglWaitClient
+GLEXT_API_CALL PFNEGLWAITGLPROC glext_eglWaitGL;
+#define eglWaitGL glext_eglWaitGL
+GLEXT_API_CALL PFNEGLWAITNATIVEPROC glext_eglWaitNative;
+#define eglWaitNative glext_eglWaitNative
+GLEXT_API_CALL PFNEGLWAITSYNCPROC glext_eglWaitSync;
+#define eglWaitSync glext_eglWaitSync
+GLEXT_API_CALL PFNEGLWAITSYNCKHRPROC glext_eglWaitSyncKHR;
+#define eglWaitSyncKHR glext_eglWaitSyncKHR
 
-GLAD_API_CALL int
-gladLoadEGLUserPtr (EGLDisplay display, GLADuserptrloadfunc load,
-                    void* userptr);
-GLAD_API_CALL int
-gladLoadEGL (EGLDisplay display, GLADloadfunc load);
+GLEXT_API_CALL int
+glext_LoadEGLUserPtr (EGLDisplay display, GLEXTuserptrloadfunc load,
+                      void* userptr);
+GLEXT_API_CALL int
+glext_LoadEGL (EGLDisplay display, GLEXTloadfunc load);
 
-#ifdef GLAD_EGL
+#ifdef GLEXT_EGL
 
-GLAD_API_CALL int
-gladLoaderLoadEGL (EGLDisplay display);
+GLEXT_API_CALL int
+glext_LoaderLoadEGL (EGLDisplay display);
 
-GLAD_API_CALL void
-gladLoaderUnloadEGL (void);
+GLEXT_API_CALL void
+glext_LoaderUnloadEGL (void);
 
 #endif
 #ifdef __cplusplus

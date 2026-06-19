@@ -1,14 +1,13 @@
-gl library!
+glext_26.0
 
-This repository includes all essential specifications and all their extensions!
-I've generated it using glad2, and then added doxygen comments to `gl.h`
+This repository includes the following specifications:
+  gl 4.6 (core profile)
+  egl 1.5
+  glx 1.4
+  wgl 1.0
 
-gl 4.6 (core profile)
-egl 1.5
-glx 1.4
-wgl 1.0
+Generated using glad2
 
 https://dav1d.de/
 https://gen.glad.sh/
 https://www.khronos.org/
-https://github.com/Rinzii/glad-doxygen/
