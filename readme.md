@@ -1,4 +1,4 @@
-# glext_26.0
+# glext_26.1
 
 This repository includes the following specifications:
 
