@@ -5,6 +5,8 @@
 
 #ifdef GLEXT_GLX_COMPILE
 
+#include <string.h>
+
 #ifndef GLEXT_IMPL_UTIL_C_
 #define GLEXT_IMPL_UTIL_C_
 
